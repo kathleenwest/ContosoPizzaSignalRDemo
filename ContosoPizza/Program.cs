@@ -86,10 +86,10 @@ namespace ContosoPizza
             app.MapControllers();
 
             //Add the SignalR Endpoint
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapHub<OrdersHub>("/ordersHub");
-            });
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapHub<OrdersHub>("/ordersHub");
+            //});
 
             // Let's get this party started!
             app.Run();
