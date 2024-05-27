@@ -5,23 +5,18 @@
     /// </summary>
     public class Pizza
     {
-        /// <summary>
-        /// Unique Identifier (int) 
-        /// for Pizza
-        /// </summary>
-        public int Id { get; set; }
+        public Guid id { get; set; }
         
         /// <summary>
         /// Name of the Pizza (string)
         /// </summary>
-        public string? Name { get; set; }
-        
-        /// <summary>
-        /// Is this Pizza Gluten Free
-        /// (bool true --> yes)
-        /// </summary>
-        public bool IsGlutenFree { get; set; }
-    
+        public string Name { get; set; }
+
+        public Pizza()
+        {
+            id = Guid.NewGuid();
+        }
+
     } // end of class
 
 } // end of namespace

@@ -4,10 +4,22 @@ namespace ContosoPizza.Services
 {
     public class OrdersHub : Hub
     {
-        public async Task BroadcastOrderUpdate(string orderStatus)
+        public override Task OnConnectedAsync()
         {
-            await Clients.All.SendAsync("ReceiveOrderUpdate", orderStatus);
+            string connectionId = Context.ConnectionId;
+            // You can now use this connection ID to track the client
+            return base.OnConnectedAsync();
+        }
+
+        // TODO We are going to send kitchen open, kitchen closed notifications
+        public async Task BroadcastMessageAllClients(string message)
+        {
+            await Clients.All.SendAsync("ReceiveNotification", message);
+        }
+
+        public async Task UpdateClientAboutOrder(string connectionId, string updateMessage)
+        {
+            await Clients.Client(connectionId).SendAsync("ReceiveOrderUpdate", updateMessage);
         }
     }
-
 }
