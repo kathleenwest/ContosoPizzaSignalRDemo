@@ -7,10 +7,7 @@
     {
         public Guid id { get; set; }
         
-        /// <summary>
-        /// Name of the Pizza (string)
-        /// </summary>
-        public string Name { get; set; }
+        public string PizzaDetails { get; set; }
 
         public Pizza()
         {

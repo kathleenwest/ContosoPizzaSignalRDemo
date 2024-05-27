@@ -9,11 +9,6 @@
             Simple Pizza
             </summary>
         </member>
-        <member name="P:ContosoPizza.Models.Pizza.Name">
-            <summary>
-            Name of the Pizza (string)
-            </summary>
-        </member>
         <member name="P:ContosoPizza.Services.OrderService.PizzaOrders">
             <summary>
             In-memory static list of PizzaOrders

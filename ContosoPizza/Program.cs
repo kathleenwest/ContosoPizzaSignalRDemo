@@ -12,6 +12,10 @@ namespace ContosoPizza
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddRazorPages();
+            builder.Services.AddSignalR();
+
+            // Add services to the container.
             builder.Services.AddScoped<IOrderService, OrderService>();
 
             // In order to use JsonPatch, you need to Add NewtonsoftJson support to your controllers here!
@@ -80,16 +84,16 @@ namespace ContosoPizza
                 app.UseExceptionHandler("/error");
             }
 
-           
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
-            app.UseAuthorization();
             app.MapControllers();
+            app.UseRouting();
 
             //Add the SignalR Endpoint
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapHub<OrdersHub>("/ordersHub");
-            //});
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<OrdersHub>("/ordersHub");
+            });
 
             // Let's get this party started!
             app.Run();

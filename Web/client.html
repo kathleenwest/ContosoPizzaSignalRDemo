@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Updates with SignalR</title>
+    <!-- Include the SignalR library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+</head>
+<body>
+    <h1>Order Updates</h1>
+    <div id="orderStatus"></div>
+
+    <!-- Add a form to submit new orders -->
+    <form id="newOrderForm">
+        <input type="text" id="CustomerName" placeholder="Customer Name" />
+        <input type="text" id="PizzaDetails" placeholder="Pizza Details" />
+        <button type="submit">Place Order</button>
+    </form>
+
+    <script>
+        // Create a connection to the SignalR hub
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/orderHub") // The URL to the OrderHub on the server
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        // Function to start the SignalR connection
+        async function start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.error(err);
+                setTimeout(start, 5000);
+            }
+        };
+
+        // Function to handle order updates from the server
+        connection.on("ReceiveOrderUpdate", function (update) {
+            const statusDiv = document.getElementById("orderStatus");
+            statusDiv.innerHTML = update;
+        });
+
+        // Handle the form submission
+        document.getElementById("newOrderForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            connection.start().then(() => {
+                const connectionId = connection.connectionId;
+                // Send this connectionId back to the server to map it with the new order
+            });
+
+            const customerName = document.getElementById("customerName").value;
+            const pizzaDetails = document.getElementById("pizzaDetails").value;
+
+            // Send the order details to the server
+            fetch('/api/Order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                {
+                        customerName: customerName,
+                        pizza: {
+                            pizzaDetails: pizzaDetails
+                        },
+                        connectionId: connectionId
+                })
+            }).then(response => response.json())
+            .then(order => {
+                console.log("Order placed:", order);
+            });
+        });
+    </script>
+</body>
+</html>

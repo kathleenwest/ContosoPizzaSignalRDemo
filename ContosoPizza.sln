@@ -5,6 +5,11 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContosoPizza", "ContosoPizza\ContosoPizza.csproj", "{98833444-3637-45FB-A117-8922880D3346}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C8F1BFF2-29DC-4E31-BD41-B11A12F00E5A}"
+	ProjectSection(SolutionItems) = preProject
+		Web\client.html = Web\client.html
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
