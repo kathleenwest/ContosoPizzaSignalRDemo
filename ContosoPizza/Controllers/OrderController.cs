@@ -1,5 +1,6 @@
 ﻿using ContosoPizza.Models;
 using ContosoPizza.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 

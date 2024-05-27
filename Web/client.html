@@ -17,22 +17,36 @@
     </form>
 
     <script>
-        // Create a connection to the SignalR hub
+        // Create a new connection to the SignalR hub
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl("/orderHub") // The URL to the OrderHub on the server
+            .withUrl("https://localhost:7048/ordersHub")
             .configureLogging(signalR.LogLevel.Information)
             .build();
 
         // Function to start the SignalR connection
+        // Start the connection
         async function start() {
             try {
                 await connection.start();
                 console.log("SignalR Connected.");
             } catch (err) {
-                console.error(err);
+                console.log(err);
                 setTimeout(start, 5000);
             }
         };
+
+        connection.onclose(async () => {
+            await start();
+        });
+      
+        var connectionId;
+
+        // Start the connection
+        start().then(() => {
+            connectionId = connection.connectionId;
+            console.log(connectionId);
+            // Send this connectionId back to the server to map it with the new order
+        });
 
         // Function to handle order updates from the server
         connection.on("ReceiveOrderUpdate", function (update) {
@@ -44,16 +58,16 @@
         document.getElementById("newOrderForm").addEventListener("submit", function (e) {
             e.preventDefault();
 
-            connection.start().then(() => {
-                const connectionId = connection.connectionId;
-                // Send this connectionId back to the server to map it with the new order
-            });
+            const customerName = document.getElementById("CustomerName").value;
+            const pizzaDetails = document.getElementById("PizzaDetails").value;
 
-            const customerName = document.getElementById("customerName").value;
-            const pizzaDetails = document.getElementById("pizzaDetails").value;
+            
+            console.log(customerName);
+            console.log(pizzaDetails);
 
             // Send the order details to the server
-            fetch('/api/Order', {
+            fetch('https://localhost:7048/api/Order', {
+                mode: 'no-cors', // This mode will prevent the browser from sending the preflight request
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

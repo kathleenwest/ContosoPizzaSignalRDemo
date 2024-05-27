@@ -59,6 +59,17 @@ namespace ContosoPizza
             })
                 .AddSwaggerGenNewtonsoftSupport(); // Add support for JsonPatch here
 
+            // Define a CORS policy
+            // Don't use * for prod usuage
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", builder =>
+                    builder.AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .AllowCredentials()
+                           .SetIsOriginAllowed(_ => true)); // Allow any origin
+            });
+
             // Create the web application
             WebApplication app = builder.Build();
 
@@ -88,6 +99,7 @@ namespace ContosoPizza
             app.UseHttpsRedirection();
             app.MapControllers();
             app.UseRouting();
+            app.UseCors("AllowAll");
 
             //Add the SignalR Endpoint
             app.UseEndpoints(endpoints =>
