@@ -16,6 +16,8 @@
         <button type="submit">Place Order</button>
     </form>
 
+    <div id="order"></div>
+
     <script>
         // Create a new connection to the SignalR hub
         const connection = new signalR.HubConnectionBuilder()
@@ -38,13 +40,12 @@
         connection.onclose(async () => {
             await start();
         });
-      
-        var connectionId;
+
+        var connectionIdValue;
 
         // Start the connection
         start().then(() => {
-            connectionId = connection.connectionId;
-            console.log(connectionId);
+            connectionIdValue = connection.connectionId;
             // Send this connectionId back to the server to map it with the new order
         });
 
@@ -58,32 +59,33 @@
         document.getElementById("newOrderForm").addEventListener("submit", function (e) {
             e.preventDefault();
 
-            const customerName = document.getElementById("CustomerName").value;
-            const pizzaDetails = document.getElementById("PizzaDetails").value;
+            const customerNameValue = document.getElementById("CustomerName").value;
+            const pizzaDetailsValue = document.getElementById("PizzaDetails").value;
 
-            
-            console.log(customerName);
-            console.log(pizzaDetails);
+            console.log(customerNameValue);
+            console.log(pizzaDetailsValue);
+            console.log(connectionIdValue);
+
+            const order = {
+                "customerName": customerNameValue,
+                "pizza": {
+                    "pizzaDetails": pizzaDetailsValue
+                },
+                "connectionId": connectionIdValue
+            };
 
             // Send the order details to the server
-            fetch('https://localhost:7048/api/Order', {
-                mode: 'no-cors', // This mode will prevent the browser from sending the preflight request
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(
-                {
-                        customerName: customerName,
-                        pizza: {
-                            pizzaDetails: pizzaDetails
-                        },
-                        connectionId: connectionId
+            fetch('https://localhost:7048/api/Order',
+                {                  
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(order)
                 })
-            }).then(response => response.json())
-            .then(order => {
-                console.log("Order placed:", order);
-            });
+                .then(response => response.json())
+                .then(data => console.log('Order submitted:', data))
+                .catch(error => console.error('Error:', error));
         });
     </script>
 </body>
