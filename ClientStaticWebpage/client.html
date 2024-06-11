@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Updates with SignalR</title>
+    <!-- Include the SignalR library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+</head>
+<body>
+    <img src="images/pizza_sign.png" alt="Conotosa Pizza Sign">
+    <h1>Order Pizza</h1>
+    <div id="orderStatus"></div>
+
+    <!-- Add a form to submit new orders -->
+    <form id="newOrderForm">
+        <input type="text" id="CustomerName" placeholder="Customer Name" />
+        <input type="text" id="PizzaDetails" placeholder="Pizza Details" />
+        <button type="submit">Place Order</button>
+    </form>
+
+    <div id="order"></div>
+
+    <script>
+        // Create a new connection to the SignalR hub
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:7048/ordersHub")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        // Function to start the SignalR connection
+        // Start the connection
+        async function start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.log(err);
+                setTimeout(start, 5000);
+            }
+        };
+
+        connection.onclose(async () => {
+            await start();
+        });
+
+        var connectionIdValue;
+
+        // Start the connection
+        start().then(() => {
+            connectionIdValue = connection.connectionId;
+            // Send this connectionId back to the server to map it with the new order
+        });
+
+        // Function to handle order updates from the server
+        connection.on("ReceiveOrderUpdate", function (update) {
+            const statusDiv = document.getElementById("orderStatus");
+            statusDiv.innerHTML = update;
+        });
+
+        // Handle the form submission
+        document.getElementById("newOrderForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const customerNameValue = document.getElementById("CustomerName").value;
+            const pizzaDetailsValue = document.getElementById("PizzaDetails").value;
+
+            console.log(customerNameValue);
+            console.log(pizzaDetailsValue);
+            console.log(connectionIdValue);
+
+            const order = {
+                "customerName": customerNameValue,
+                "pizza": {
+                    "pizzaDetails": pizzaDetailsValue
+                },
+                "connectionId": connectionIdValue
+            };
+
+            // Send the order details to the server
+            fetch('https://localhost:7048/api/Order',
+                {                  
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(order)
+                })
+                .then(response => response.json())
+                .then(data => console.log('Order submitted:', data))
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
