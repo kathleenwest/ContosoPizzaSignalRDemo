@@ -17,7 +17,6 @@ namespace ContosoPizza
 
             // Add services to the container.
             builder.Services.AddSingleton<IOrderService, OrderService>();
-            //builder.Services.AddSingleton<IOrdersHub, OrdersHub>();
 
             // In order to use JsonPatch, you need to Add NewtonsoftJson support to your controllers here!
             builder.Services.AddControllers().AddNewtonsoftJson();
@@ -111,8 +110,7 @@ namespace ContosoPizza
 
             // TODO see if you can remove this
             SingletonService.SetInstance(app.Services.GetService<IOrderService>());
-
-            
+           
             // Let's get this party started!
             app.Run();
         }

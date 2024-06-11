@@ -2,7 +2,6 @@
 using ContosoPizza.Services;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 
 namespace ContosoPizza.Controllers
 {
@@ -11,12 +10,10 @@ namespace ContosoPizza.Controllers
     public class OrderController :ControllerBase
     {
         private readonly IOrderService _orderService;
-        private readonly IHubContext<OrdersHub> _hubContext;
 
-        public OrderController(IOrderService orderService, IHubContext<OrdersHub> hubContext)
+        public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
-            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -53,15 +50,6 @@ namespace ContosoPizza.Controllers
             // Order the Pizza
             _orderService.OrderPizza(pizzaOrder);
 
-            //if(Status != OrderStatus.New)
-            //{
-            //    // Send the client an order update
-            //    await _hubContext.Clients.Client(ConnectionId).SendAsync("ReceiveOrderUpdate", "Pizza Order Status Update: " + Status);
-            //}
-
-            //_hubContext.Clients.Client(pizzaOrder.ConnectionId).SendAsync("ReceiveOrderUpdate", "Pizza Order Status Update: " + pizzaOrder.Status);
-
-            // Return successful status
             return Ok(pizzaOrder);
         }
 

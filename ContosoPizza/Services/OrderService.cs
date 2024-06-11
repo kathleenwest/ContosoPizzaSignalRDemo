@@ -13,9 +13,7 @@ namespace ContosoPizza.Services
         List<PizzaOrder> GetAllPizzaOrders();
         PizzaOrder? Get(Guid id);
         void Update(PizzaOrder pizzaOrder);
-
         Task UpdatePizzaOrderAsync(PizzaOrder order);
-
     }
 
     public class OrderService : IOrderService

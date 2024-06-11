@@ -1,8 +1,7 @@
 ﻿using ContosoPizza.Services;
-using Microsoft.AspNetCore.SignalR;
 
 namespace ContosoPizza.Models
-{  
+{
     public class PizzaOrder
     {       
         private OrderStatus orderStatus = default;
@@ -24,11 +23,8 @@ namespace ContosoPizza.Models
             }
         }
 
-
-
         public PizzaOrder()
-        {
-            
+        {          
             OrderId = Guid.NewGuid();
         }
        
