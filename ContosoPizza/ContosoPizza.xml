@@ -9,6 +9,23 @@
             Simple Pizza
             </summary>
         </member>
+        <member name="P:ContosoPizza.Models.Pizza.Id">
+            <summary>
+            Id
+            Globally unique identifier for the pizza
+            </summary>
+        </member>
+        <member name="P:ContosoPizza.Models.Pizza.PizzaDetails">
+            <summary>
+            Pizza Details: What the customer wants
+            </summary>
+        </member>
+        <member name="M:ContosoPizza.Models.Pizza.#ctor">
+            <summary>
+            Construtor
+            When a new pizza is created, it is assigned a guid
+            </summary>
+        </member>
         <member name="P:ContosoPizza.Services.OrderService.PizzaOrders">
             <summary>
             In-memory static list of PizzaOrders

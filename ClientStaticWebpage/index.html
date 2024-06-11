@@ -11,9 +11,11 @@
     <div id="order"></div>
     <!-- Add a form to submit new orders -->
     <form id="newOrderForm">
-        <input type="text" id="CustomerName" placeholder="Customer Name" />
-        <input type="text" id="PizzaDetails" placeholder="Pizza Details" />
-        <button type="submit">Place Order</button>
+        <fieldset id="pizzaorderform">
+            <input type="text" id="CustomerName" placeholder="Customer Name" />
+            <input type="text" id="PizzaDetails" placeholder="Pizza Details" />
+            <button type="submit">Place Order</button>
+        </fieldset>
     </form>
     <p>
         <div id="orderStatus"></div>
@@ -75,6 +77,9 @@
                 "connectionId": connectionIdValue
             };
 
+            // Disable the Order form
+            document.getElementById("pizzaorderform").disabled = true;
+
             // Send the order details to the server
             fetch('https://localhost:7048/api/Order',
                 {
@@ -88,6 +93,7 @@
                 .then(data => console.log('Order submitted:', data))
                 .catch(error => console.error('Error:', error));
         });
+
     </script>
 </body>
 </html>
