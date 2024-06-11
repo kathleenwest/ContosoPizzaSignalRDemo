@@ -19,49 +19,12 @@ namespace ContosoPizza.Models
                 if (value != orderStatus)
                 {
                     orderStatus = value;
-                    UpdatePizzaOrderAsync();
+                    _orderService.UpdatePizzaOrderAsync(this);
                 }
             }
         }
 
-        private void UpdatePizzaOrderAsync()
-        {
-            switch (Status)
-            {
-                case OrderStatus.Received:
-                    // Retrieve the pizza
-                    PizzaOrder? pizzaOrder = _orderService.Get(OrderId);
 
-                    // Validate the pizza exists
-                    if (pizzaOrder == null)
-                    {
-                        // Order the Pizza
-                        _orderService.OrderPizza(this);
-                    }
-                    break;
-                case OrderStatus.Preparation:
-                    _orderService.PreparePizza(this);
-                    break;
-                case OrderStatus.Baking:
-                    _orderService.BakePizza(this);
-                    break;
-                case OrderStatus.OutForDelivery:
-                    _orderService.DeliverPizza(this);
-                    break;
-                case OrderStatus.Complete:
-                    _orderService.CompleteOrder(this);
-                    break;
-                default:
-                    break;
-            }
-
-            //if(Status != OrderStatus.New)
-            //{
-            //    // Send the client an order update
-            //    await _hubContext.Clients.Client(ConnectionId).SendAsync("ReceiveOrderUpdate", "Pizza Order Status Update: " + Status);
-            //}
-          
-        }
 
         public PizzaOrder()
         {

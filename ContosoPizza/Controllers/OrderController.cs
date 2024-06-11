@@ -59,7 +59,7 @@ namespace ContosoPizza.Controllers
             //    await _hubContext.Clients.Client(ConnectionId).SendAsync("ReceiveOrderUpdate", "Pizza Order Status Update: " + Status);
             //}
 
-            _hubContext.Clients.Client(pizzaOrder.ConnectionId).SendAsync("ReceiveOrderUpdate", "Pizza Order Status Update: " + pizzaOrder.Status);
+            //_hubContext.Clients.Client(pizzaOrder.ConnectionId).SendAsync("ReceiveOrderUpdate", "Pizza Order Status Update: " + pizzaOrder.Status);
 
             // Return successful status
             return Ok(pizzaOrder);

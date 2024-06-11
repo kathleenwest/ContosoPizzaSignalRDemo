@@ -14,6 +14,8 @@ namespace ContosoPizza.Services
         PizzaOrder? Get(Guid id);
         void Update(PizzaOrder pizzaOrder);
 
+        Task UpdatePizzaOrderAsync(PizzaOrder order);
+
     }
 
     public class OrderService : IOrderService
@@ -25,8 +27,11 @@ namespace ContosoPizza.Services
         /// </summary>
         private static List<PizzaOrder> PizzaOrders { get; set; } = new List<PizzaOrder>();
 
-        public OrderService()
+        private readonly IHubContext<OrdersHub> _hubContext;
+
+        public OrderService(IHubContext<OrdersHub> hubContext)
         {
+            _hubContext = hubContext;
         }
 
         public void OrderPizza(PizzaOrder order)
@@ -92,6 +97,45 @@ namespace ContosoPizza.Services
                 return;
 
             PizzaOrders[index] = pizzaOrder;
+        }
+
+        public async Task UpdatePizzaOrderAsync(PizzaOrder order)
+        {
+            switch (order.Status)
+            {
+                case OrderStatus.Received:
+                    // Retrieve the pizza
+                    PizzaOrder? pizzaOrder = Get(order.OrderId);
+
+                    // Validate the pizza exists
+                    if (pizzaOrder == null)
+                    {
+                        // Order the Pizza
+                        OrderPizza(order);
+                    }
+                    break;
+                case OrderStatus.Preparation:
+                    PreparePizza(order);
+                    break;
+                case OrderStatus.Baking:
+                    BakePizza(order);
+                    break;
+                case OrderStatus.OutForDelivery:
+                    DeliverPizza(order);
+                    break;
+                case OrderStatus.Complete:
+                    CompleteOrder(order);
+                    break;
+                default:
+                    break;
+            }
+
+            if (order.Status != OrderStatus.New)
+            {
+                // Send the client an order update
+                await _hubContext.Clients.Client(order.ConnectionId).SendAsync("ReceiveOrderUpdate", "Pizza Order Status Update: " + order.Status);
+            }
+
         }
 
     }
