@@ -5,54 +5,93 @@ namespace ContosoPizza.Services
 {
     public interface IOrderService
     {
-        Task OrderPizza(PizzaOrder order);
-        Task PreparePizza(PizzaOrder order);
-        Task BakePizza(PizzaOrder order);
-        Task DeliverPizza(PizzaOrder order);
-    }
+        void OrderPizza(PizzaOrder order);
+        void PreparePizza(PizzaOrder order);
+        void BakePizza(PizzaOrder order);
+        void DeliverPizza(PizzaOrder order);
+        void CompleteOrder(PizzaOrder order);
+        List<PizzaOrder> GetAllPizzaOrders();
+        PizzaOrder? Get(Guid id);
+        void Update(PizzaOrder pizzaOrder);
 
+    }
 
     public class OrderService : IOrderService
     {
-        OrdersHub hub { get; set; }
 
         /// <summary>
         /// In-memory static list of PizzaOrders
         /// (mock of database later)
         /// </summary>
-        static internal List<PizzaOrder> PizzaOrders { get; set; }
+        private static List<PizzaOrder> PizzaOrders { get; set; } = new List<PizzaOrder>();
 
         public OrderService()
         {
-            hub = new OrdersHub();
         }
 
-        public async Task OrderPizza(PizzaOrder order)
+        public void OrderPizza(PizzaOrder order)
         {
-            // Order Pizza
-            // Send Update
-            return;
+            // Update the Pizza Order Status
+            order.Status = OrderStatus.Received;
+
+            // Add to the Pizza Order
+            PizzaOrders.Add(order);
+          
+            // Update the Customer about their pizza order status
+            //await _hub.UpdateClientAboutOrder(order.ConnectionId,"Pizza Order Status Update: " + order.Status);
         }
 
-        public async Task PreparePizza(PizzaOrder order)
+        public void PreparePizza(PizzaOrder order)
         {
-            // Order Pizza
-            // Send Update
-            return;
+            // Update the Pizza Order Status
+            order.Status = OrderStatus.Preparation;
+
+            // Update the Customer about their pizza order status
+            //await _hub.UpdateClientAboutOrder(order.ConnectionId, "Pizza Order Status Update: " + order.Status);
         }
 
-        public async Task BakePizza(PizzaOrder order)
+        public void BakePizza(PizzaOrder order)
         {
-            // Order Pizza
-            // Send Update
-            return;
+            // Update the Pizza Order Status
+            order.Status = OrderStatus.Baking;
+
+            // Update the Customer about their pizza order status
+            //await _hub.UpdateClientAboutOrder(order.ConnectionId, "Pizza Order Status Update: " + order.Status);
         }
 
-        public async Task DeliverPizza(PizzaOrder order)
+        public void DeliverPizza(PizzaOrder order)
         {
-            // Deliver Pizza
+            // Update the Pizza Order Status
+            order.Status = OrderStatus.OutForDelivery;
 
-            return;
+            // Update the Customer about their pizza order status
+            //await _hub.UpdateClientAboutOrder(order.ConnectionId, "Pizza Order Status Update: " + order.Status);
+        }
+
+        public void CompleteOrder(PizzaOrder order)
+        {
+            // Update the Pizza Order Status
+            order.Status = OrderStatus.Complete;
+
+            // Update the Customer about their pizza order status
+            //await _hub.UpdateClientAboutOrder(order.ConnectionId, "Pizza Order Status Update: " + order.Status);
+        }
+
+        public List<PizzaOrder> GetAllPizzaOrders()
+        {
+            return PizzaOrders;
+        }
+
+        public PizzaOrder? Get(Guid id) => PizzaOrders.FirstOrDefault(p => p.OrderId == id);
+
+        public void Update(PizzaOrder pizzaOrder)
+        {
+            int index = PizzaOrders.FindIndex(p => p.OrderId == pizzaOrder.OrderId);
+
+            if (index == -1)
+                return;
+
+            PizzaOrders[index] = pizzaOrder;
         }
 
     }

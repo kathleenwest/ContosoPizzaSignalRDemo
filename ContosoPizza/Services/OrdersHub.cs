@@ -1,25 +1,33 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using System.Xml.Linq;
 
 namespace ContosoPizza.Services
 {
     public class OrdersHub : Hub
     {
-        public override Task OnConnectedAsync()
-        {
-            string connectionId = Context.ConnectionId;
-            // You can now use this connection ID to track the client
-            return base.OnConnectedAsync();
-        }
+        //public override Task OnConnectedAsync()
+        //{
+        //    string connectionId = Context.ConnectionId;
 
-        // TODO We are going to send kitchen open, kitchen closed notifications
+        //    return base.OnConnectedAsync();
+        //}
+
+        //public override Task OnDisconnectedAsync(Exception? exception)
+        //{
+        //    return base.OnDisconnectedAsync(exception);
+        //}
+
         public async Task BroadcastMessageAllClients(string message)
         {
             await Clients.All.SendAsync("ReceiveNotification", message);
         }
 
-        public async Task UpdateClientAboutOrder(string connectionId, string updateMessage)
+        public async Task UpdateClientAboutOrder(string updateMessage)
         {
-            await Clients.Client(connectionId).SendAsync("ReceiveOrderUpdate", updateMessage);
+            //await Clients.Client(connectionId).SendAsync("ReceiveOrderUpdate", updateMessage);
+            //await Clients.Caller.SendAsync("ReceiveOrderUpdate", Context.ConnectionId, updateMessage);
+            await Clients.Client(Context.ConnectionId).SendAsync("ReceiveOrderUpdate", updateMessage);
         }
+
     }
 }

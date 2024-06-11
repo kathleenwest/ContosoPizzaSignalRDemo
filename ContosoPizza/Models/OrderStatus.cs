@@ -2,9 +2,11 @@
 {
     public enum OrderStatus
     {
+        New,
         Received,
         Preparation,
         Baking,
-        OutForDelivery
+        OutForDelivery,
+        Complete
     }
 }
