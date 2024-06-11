@@ -7,16 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContosoPizza", "ContosoPizz
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C8F1BFF2-29DC-4E31-BD41-B11A12F00E5A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClientStaticWebpage", "ClientStaticWebpage", "{24C825FC-FBD5-4CEB-B09D-6075B545FEF7}"
-	ProjectSection(SolutionItems) = preProject
-		Web\client.html = Web\client.html
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{F4FC5501-177D-4E76-B4AA-A165A1592FDC}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\..\..\Downloads\pizza_sign.png = ..\..\..\..\Downloads\pizza_sign.png
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,9 +20,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{F4FC5501-177D-4E76-B4AA-A165A1592FDC} = {24C825FC-FBD5-4CEB-B09D-6075B545FEF7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0BC5D362-3B5F-4FD8-B13F-2802AFC57A0A}
