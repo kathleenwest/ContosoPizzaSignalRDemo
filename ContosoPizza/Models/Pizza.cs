@@ -1,12 +1,11 @@
 ﻿namespace ContosoPizza.Models
 {
     /// <summary>
-    /// Simple Pizza
+    /// Simple Pizza Model
     /// </summary>
     public class Pizza
     {
         /// <summary>
-        /// Id
         /// Globally unique identifier for the pizza
         /// </summary>
         public Guid Id { get; set; }
