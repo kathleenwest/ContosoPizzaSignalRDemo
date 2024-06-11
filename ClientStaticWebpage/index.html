@@ -6,19 +6,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
 </head>
 <body>
-    <img src="images/pizza_sign.jpg" alt="Conotosa Pizza Sign">
+    <img src="images/pizza_sign.jpg" alt="Conotosa Pizza Sign" width="300" height="200">
     <h1>Order Pizza</h1>
-    <div id="orderStatus"></div>
-
+    <div id="order"></div>
     <!-- Add a form to submit new orders -->
     <form id="newOrderForm">
         <input type="text" id="CustomerName" placeholder="Customer Name" />
         <input type="text" id="PizzaDetails" placeholder="Pizza Details" />
         <button type="submit">Place Order</button>
     </form>
-
-    <div id="order"></div>
-
+    <p>
+        <div id="orderStatus"></div>
+    </p>
+    
     <script>
         // Create a new connection to the SignalR hub
         const connection = new signalR.HubConnectionBuilder()
@@ -77,7 +77,7 @@
 
             // Send the order details to the server
             fetch('https://localhost:7048/api/Order',
-                {                  
+                {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
