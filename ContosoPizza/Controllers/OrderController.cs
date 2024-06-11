@@ -5,23 +5,42 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ContosoPizza.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class OrderController :ControllerBase
     {
+        /// <summary>
+        /// 
+        /// </summary>
         private readonly IOrderService _orderService;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="orderService"></param>
         public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
         }
 
-        [HttpGet]
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]       
         public ActionResult<List<PizzaOrder>> GetAll()
         {
             return Ok(_orderService.GetAllPizzaOrders());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public ActionResult<PizzaOrder> Get(Guid id)
         {
@@ -44,6 +63,11 @@ namespace ContosoPizza.Controllers
             return Ok(pizzaOrder);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pizzaOrder"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult CreateOrder([FromBody] PizzaOrder pizzaOrder)
         {
@@ -53,6 +77,21 @@ namespace ContosoPizza.Controllers
             return Ok(pizzaOrder);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="pizzaOrderUpdates"></param>
+        /// 
+        /// JSON Example: 
+        /// [
+        ///   {
+        ///     "value": "Preparation",
+        ///     "path": "/status",
+        ///     "op": "replace"
+        ///   }
+        /// ] 
+        /// <returns></returns>
         [HttpPatch("{id}")]
         public IActionResult Patch(Guid id, JsonPatchDocument<PizzaOrder> pizzaOrderUpdates)
         {
