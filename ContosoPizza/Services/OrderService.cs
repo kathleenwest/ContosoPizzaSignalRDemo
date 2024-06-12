@@ -5,7 +5,7 @@ namespace ContosoPizza.Services
 {
     public interface IOrderService
     {
-        void OrderPizza(PizzaOrder order);
+        Task OrderPizzaAsync(PizzaOrder order);
         void PreparePizza(PizzaOrder order);
         void BakePizza(PizzaOrder order);
         void DeliverPizza(PizzaOrder order);
@@ -32,7 +32,7 @@ namespace ContosoPizza.Services
             _hubContext = hubContext;
         }
 
-        public void OrderPizza(PizzaOrder order)
+        public async Task OrderPizzaAsync(PizzaOrder order)
         {           
             // Add to the Pizza Order
             PizzaOrders.Add(order);
@@ -40,8 +40,8 @@ namespace ContosoPizza.Services
             // Update the Pizza Order Status
             order.Status = OrderStatus.Received;
 
-            // Update the Customer about their pizza order status
-            //await _hub.UpdateClientAboutOrder(order.ConnectionId,"Pizza Order Status Update: " + order.Status);
+            // Send the admin with the new order
+            await _hubContext.Clients.All.SendAsync("ReceiveAdminOrderUpdate", "New Pizza Order From Customer: " + order.CustomerName);
         }
 
         public void PreparePizza(PizzaOrder order)
@@ -109,7 +109,7 @@ namespace ContosoPizza.Services
                     if (pizzaOrder == null)
                     {
                         // Order the Pizza
-                        OrderPizza(order);
+                        OrderPizzaAsync(order);
                     }
                     break;
                 case OrderStatus.Preparation:

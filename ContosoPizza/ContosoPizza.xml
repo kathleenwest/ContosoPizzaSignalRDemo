@@ -33,7 +33,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:ContosoPizza.Controllers.OrderController.CreateOrder(ContosoPizza.Models.PizzaOrder)">
+        <member name="M:ContosoPizza.Controllers.OrderController.CreateOrderAsync(ContosoPizza.Models.PizzaOrder)">
             <summary>
             
             </summary>

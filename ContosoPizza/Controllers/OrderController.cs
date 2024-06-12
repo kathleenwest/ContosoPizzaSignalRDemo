@@ -69,10 +69,10 @@ namespace ContosoPizza.Controllers
         /// <param name="pizzaOrder"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult CreateOrder([FromBody] PizzaOrder pizzaOrder)
+        public async Task<ActionResult> CreateOrderAsync([FromBody] PizzaOrder pizzaOrder)
         {
             // Order the Pizza
-            _orderService.OrderPizza(pizzaOrder);
+            await _orderService.OrderPizzaAsync(pizzaOrder);
 
             return Ok(pizzaOrder);
         }

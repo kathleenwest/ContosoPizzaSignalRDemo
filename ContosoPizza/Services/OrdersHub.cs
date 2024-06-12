@@ -15,5 +15,10 @@ namespace ContosoPizza.Services
             await Clients.Client(Context.ConnectionId).SendAsync("ReceiveOrderUpdate", updateMessage);
         }
 
+        public async Task UpdateAdminAboutNewOrder(string updateMessage)
+        {
+            await Clients.Client(Context.ConnectionId).SendAsync("ReceiveAdminOrderUpdate", updateMessage);
+        }
+
     }
 }

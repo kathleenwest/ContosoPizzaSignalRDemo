@@ -2,36 +2,33 @@
 <html>
 <head>
     <title>Admin Order Updates</title>
+    <!-- Include the SignalR library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
 </head>
 <body>
     <img src="images/pizza_sign.jpg" alt="Conotosa Pizza Sign" width="300" height="200">
     <h1>Pizza Order Admin</h1>
 
+    <p>
+        <div id="orderStatus"></div>
+    </p>
+
     <button type="submit" onclick="fetchPizzaOrders()">Get Orders</button>
 
     <!-- Add a form to submit order updates -->
     <form id="ordersForm">
-        <table id="myOrders" cellpadding="5" border="1" cellspacing="5" >
-
+        <table id="myOrders" cellpadding="5" border="1" cellspacing="5">
         </table>
     </form>
 
     <!--<fieldset id="pizzaorderform">-->
-        <!--<input type="text" id="OrderId" placeholder="OrderId" />
-        <input type="text" id="CustomerName" placeholder="Customer Name" />
-        <input type="text" id="PizzaDetails" placeholder="Pizza Details" />
-        <button type="submit">Update Orders</button>-->
+    <!--<input type="text" id="OrderId" placeholder="OrderId" />
+    <input type="text" id="CustomerName" placeholder="Customer Name" />
+    <input type="text" id="PizzaDetails" placeholder="Pizza Details" />
+    <button type="submit">Update Orders</button>-->
     <!--</fieldset>-->
 
     <script>
-
-        //var lookupTable = [
-        //    { Number: 0, Status: "New"},
-        //    { Number: 1, Status: "Received" },
-        //    { Number: 2, Status: "Baking" },
-        //    { Number: 3, Status: "Out For Delivery" },
-        //    { Number: 4, Status: "Complete" }
-        //];
 
         var statusLookupTable = {
             0: "New",
@@ -41,6 +38,45 @@
             4: "Out for Delivery",
             5: "Complete"
         };
+
+        // Create a new connection to the SignalR hub
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:7048/ordersHub")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        // Function to start the SignalR connection
+        // Start the connection
+        async function start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.log(err);
+                setTimeout(start, 5000);
+            }
+        };
+
+        connection.onclose(async () => {
+            await start();
+        });
+
+        var connectionIdValue;
+
+        // Start the connection
+        start().then(() => {
+            connectionIdValue = connection.connectionId;
+            // Send this connectionId back to the server to map it with the new order
+        });
+
+        // Function to handle order updates from the server
+        connection.on("ReceiveAdminOrderUpdate", function (update) {
+            console.log("Received Order Update");
+            const statusDiv = document.getElementById("orderStatus");
+            statusDiv.innerHTML = update;
+            fetchPizzaOrders();
+
+        });
 
         window.onload = function () {
             // Fetch the Pizza Orders
@@ -56,7 +92,7 @@
 
                 const response = await fetch('https://localhost:7048/api/Order');
                 const data = await response.json();
-                console.log(data);
+                //console.log(data);
 
                 // Setup the Orders Table Header
                 var thead = document.createElement("thead");
@@ -117,37 +153,37 @@
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
-        }
+        };
 
 
         // Handle the form submission
-        document.getElementById("ordersForm").addEventListener("submit", function (e) {
-            e.preventDefault();
+        //document.getElementById("ordersForm").addEventListener("submit", function (e) {
+        //    e.preventDefault();
 
-            const customerNameValue = document.getElementById("CustomerName").value;
-            const pizzaDetailsValue = document.getElementById("PizzaDetails").value;
+        //    const customerNameValue = document.getElementById("CustomerName").value;
+        //    const pizzaDetailsValue = document.getElementById("PizzaDetails").value;
 
-            const order = {
-                "customerName": customerNameValue,
-                "pizza": {
-                    "pizzaDetails": pizzaDetailsValue
-                },
-                "connectionId": connectionIdValue
-            };
+        //    const order = {
+        //        "customerName": customerNameValue,
+        //        "pizza": {
+        //            "pizzaDetails": pizzaDetailsValue
+        //        },
+        //        "connectionId": connectionIdValue
+        //    };
 
-            // Send the order details to the server
-            fetch('https://localhost:7048/api/Order',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(order)
-                })
-                .then(response => response.json())
-                .then(data => console.log('Order submitted:', data))
-                .catch(error => console.error('Error:', error));
-        });
+        //    // Send the order details to the server
+        //    fetch('https://localhost:7048/api/Order',
+        //        {
+        //            method: 'POST',
+        //            headers: {
+        //                'Content-Type': 'application/json'
+        //            },
+        //            body: JSON.stringify(order)
+        //        })
+        //        .then(response => response.json())
+        //        .then(data => console.log('Order submitted:', data))
+        //        .catch(error => console.error('Error:', error));
+        //});
 
     </script>
 </body>
