@@ -33,13 +33,13 @@ namespace ContosoPizza.Services
         }
 
         public void OrderPizza(PizzaOrder order)
-        {
+        {           
+            // Add to the Pizza Order
+            PizzaOrders.Add(order);
+
             // Update the Pizza Order Status
             order.Status = OrderStatus.Received;
 
-            // Add to the Pizza Order
-            PizzaOrders.Add(order);
-          
             // Update the Customer about their pizza order status
             //await _hub.UpdateClientAboutOrder(order.ConnectionId,"Pizza Order Status Update: " + order.Status);
         }
