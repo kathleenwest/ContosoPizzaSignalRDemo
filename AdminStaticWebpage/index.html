@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Order Updates</title>
+</head>
+<body>
+    <img src="images/pizza_sign.jpg" alt="Conotosa Pizza Sign" width="300" height="200">
+    <h1>Pizza Order Admin</h1>
+
+    <button type="submit" onclick="fetchPizzaOrders()">Get Orders</button>
+
+    <!-- Add a form to submit order updates -->
+    <form id="ordersForm">
+        <table id="myOrders" cellpadding="5" border="1" cellspacing="5" >
+
+        </table>
+    </form>
+
+    <!--<fieldset id="pizzaorderform">-->
+        <!--<input type="text" id="OrderId" placeholder="OrderId" />
+        <input type="text" id="CustomerName" placeholder="Customer Name" />
+        <input type="text" id="PizzaDetails" placeholder="Pizza Details" />
+        <button type="submit">Update Orders</button>-->
+    <!--</fieldset>-->
+
+    <script>
+        window.onload = function () {
+            // Fetch the Pizza Orders
+            fetchPizzaOrders();
+        };
+
+        // Get the PizzaOrders
+        async function fetchPizzaOrders() {
+            try {
+
+                // Clear the Orders Table
+                document.getElementById("myOrders").replaceChildren();
+
+                const response = await fetch('https://localhost:7048/api/Order');
+                const data = await response.json();
+                console.log(data);
+
+                // Setup the Orders Table Header
+                var thead = document.createElement("thead");
+                var tr = document.createElement("tr");
+
+                var th = document.createElement("th");
+                var text = document.createTextNode("Order Id");
+                th.appendChild(text);
+                tr.appendChild(th);
+
+                var th = document.createElement("th");
+                var text = document.createTextNode("Customer Name");
+                th.appendChild(text);
+                tr.appendChild(th);
+
+                var th = document.createElement("th");
+                var text = document.createTextNode("Pizza Details");
+                th.appendChild(text);
+                tr.appendChild(th);
+
+                var th = document.createElement("th");
+                var text = document.createTextNode("Status");
+                th.appendChild(text);
+                tr.appendChild(th);
+
+                thead.appendChild(tr);
+                document.getElementById("myOrders").appendChild(thead);
+
+                // Lopp Through the Orders
+                data.forEach(function (item) {
+
+                    var tr = document.createElement("tr");
+
+                    var td = document.createElement("td");
+                    var text = document.createTextNode(item.orderId);
+                    td.appendChild(text);
+                    tr.appendChild(td);
+
+                    var td = document.createElement("td");
+                    var text = document.createTextNode(item.customerName);
+                    td.appendChild(text);
+                    tr.appendChild(td);
+
+                    var td = document.createElement("td");
+                    var text = document.createTextNode(item.pizza.pizzaDetails);
+                    td.appendChild(text);
+                    tr.appendChild(td);
+
+                    var td = document.createElement("td");
+                    var text = document.createTextNode(item.status);
+                    td.appendChild(text);
+                    tr.appendChild(td);
+
+                    document.getElementById("myOrders").appendChild(tr);
+                });
+
+                return data;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+
+        // Handle the form submission
+        document.getElementById("ordersForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const customerNameValue = document.getElementById("CustomerName").value;
+            const pizzaDetailsValue = document.getElementById("PizzaDetails").value;
+
+            const order = {
+                "customerName": customerNameValue,
+                "pizza": {
+                    "pizzaDetails": pizzaDetailsValue
+                },
+                "connectionId": connectionIdValue
+            };
+
+            // Send the order details to the server
+            fetch('https://localhost:7048/api/Order',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(order)
+                })
+                .then(response => response.json())
+                .then(data => console.log('Order submitted:', data))
+                .catch(error => console.error('Error:', error));
+        });
+
+    </script>
+</body>
+</html>

@@ -4,14 +4,71 @@
         <name>ContosoPizza</name>
     </assembly>
     <members>
+        <member name="T:ContosoPizza.Controllers.OrderController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:ContosoPizza.Controllers.OrderController._orderService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ContosoPizza.Controllers.OrderController.#ctor(ContosoPizza.Services.IOrderService)">
+            <summary>
+            
+            </summary>
+            <param name="orderService"></param>
+        </member>
+        <member name="M:ContosoPizza.Controllers.OrderController.GetAll">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ContosoPizza.Controllers.OrderController.Get(System.Guid)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ContosoPizza.Controllers.OrderController.CreateOrder(ContosoPizza.Models.PizzaOrder)">
+            <summary>
+            
+            </summary>
+            <param name="pizzaOrder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ContosoPizza.Controllers.OrderController.Patch(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{ContosoPizza.Models.PizzaOrder})">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="pizzaOrderUpdates"></param>
+            
+            JSON Example: 
+            [
+              {
+                "value": "Preparation",
+                "path": "/status",
+                "op": "replace"
+              }
+            ] 
+            <returns></returns>
+        </member>
+        <member name="T:ContosoPizza.Models.OrderStatus">
+            <summary>
+            Lifecycle of Pizza Order
+            </summary>
+        </member>
         <member name="T:ContosoPizza.Models.Pizza">
             <summary>
-            Simple Pizza
+            Simple Pizza Model
             </summary>
         </member>
         <member name="P:ContosoPizza.Models.Pizza.Id">
             <summary>
-            Id
             Globally unique identifier for the pizza
             </summary>
         </member>
@@ -24,6 +81,51 @@
             <summary>
             Construtor
             When a new pizza is created, it is assigned a guid
+            </summary>
+        </member>
+        <member name="T:ContosoPizza.Models.PizzaOrder">
+            <summary>
+            Simple Pizza Order Class Model
+            </summary>
+        </member>
+        <member name="F:ContosoPizza.Models.PizzaOrder.orderStatus">
+            <summary>
+            Private field for Status property
+            </summary>
+        </member>
+        <member name="P:ContosoPizza.Models.PizzaOrder._orderService">
+            <summary>
+            Reference to the IOrderService
+            </summary>
+        </member>
+        <member name="P:ContosoPizza.Models.PizzaOrder.OrderId">
+            <summary>
+            Globably unique identifier for the the order
+            </summary>
+        </member>
+        <member name="P:ContosoPizza.Models.PizzaOrder.CustomerName">
+            <summary>
+            The customer name for the pizza order (submitted)
+            </summary>
+        </member>
+        <member name="P:ContosoPizza.Models.PizzaOrder.Pizza">
+            <summary>
+            Pizza model reference for the order
+            </summary>
+        </member>
+        <member name="P:ContosoPizza.Models.PizzaOrder.ConnectionId">
+            <summary>
+            SignalR ConnectionId for this client
+            </summary>
+        </member>
+        <member name="P:ContosoPizza.Models.PizzaOrder.Status">
+            <summary>
+            Current status of the pizza order
+            </summary>
+        </member>
+        <member name="M:ContosoPizza.Models.PizzaOrder.#ctor">
+            <summary>
+            Constructor
             </summary>
         </member>
         <member name="P:ContosoPizza.Services.OrderService.PizzaOrders">
