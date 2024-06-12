@@ -24,6 +24,24 @@
     <!--</fieldset>-->
 
     <script>
+
+        //var lookupTable = [
+        //    { Number: 0, Status: "New"},
+        //    { Number: 1, Status: "Received" },
+        //    { Number: 2, Status: "Baking" },
+        //    { Number: 3, Status: "Out For Delivery" },
+        //    { Number: 4, Status: "Complete" }
+        //];
+
+        var statusLookupTable = {
+            0: "New",
+            1: "Received",
+            2: "Preparation",
+            3: "Baking",
+            4: "Out for Delivery",
+            5: "Complete"
+        };
+
         window.onload = function () {
             // Fetch the Pizza Orders
             fetchPizzaOrders();
@@ -88,7 +106,7 @@
                     tr.appendChild(td);
 
                     var td = document.createElement("td");
-                    var text = document.createTextNode(item.status);
+                    var text = document.createTextNode(statusLookupTable[item.status]);
                     td.appendChild(text);
                     tr.appendChild(td);
 
