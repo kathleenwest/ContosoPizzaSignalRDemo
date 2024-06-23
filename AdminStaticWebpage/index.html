@@ -21,23 +21,24 @@
         </table>
     </form>
 
-    <!--<fieldset id="pizzaorderform">-->
-    <!--<input type="text" id="OrderId" placeholder="OrderId" />
-    <input type="text" id="CustomerName" placeholder="Customer Name" />
-    <input type="text" id="PizzaDetails" placeholder="Pizza Details" />
-    <button type="submit">Update Orders</button>-->
-    <!--</fieldset>-->
-
     <script>
 
-        var statusLookupTable = {
-            0: "New",
-            1: "Received",
-            2: "Preparation",
-            3: "Baking",
-            4: "Out for Delivery",
-            5: "Complete"
-        };
+        var statusLookupTable = [
+            { number: 0, value: 'New' },
+            { number: 1, value: 'Received' },
+            { number: 2, value: 'Preparation' },
+            { number: 3, value: 'Baking' },
+            { number: 4, value: 'Out for Delivery' },
+            { number: 5, value: 'Complete' }
+        ];
+
+        // Function to lookup a value by number
+        function statusLookup(number) {
+            var item = statusLookupTable.find(function (element) {
+                return element.number === number;
+            });
+            return item ? item.value : 'Not found';
+        }
 
         // Create a new connection to the SignalR hub
         const connection = new signalR.HubConnectionBuilder()
@@ -118,10 +119,15 @@
                 th.appendChild(text);
                 tr.appendChild(th);
 
+                var th = document.createElement("th");
+                var text = document.createTextNode("Update Status");
+                th.appendChild(text);
+                tr.appendChild(th);
+
                 thead.appendChild(tr);
                 document.getElementById("myOrders").appendChild(thead);
 
-                // Lopp Through the Orders
+                // Lopp Through the Order Status
                 data.forEach(function (item) {
 
                     var tr = document.createElement("tr");
@@ -142,8 +148,31 @@
                     tr.appendChild(td);
 
                     var td = document.createElement("td");
-                    var text = document.createTextNode(statusLookupTable[item.status]);
+                    var text = document.createTextNode(statusLookup(item.status));
                     td.appendChild(text);
+                    tr.appendChild(td);
+
+                    // Create the select element
+                    var selectElement = document.createElement('select');
+                    selectElement.id = 'mySelect';
+
+                    // Populate the select element with options from the lookup table
+                    statusLookupTable.forEach(function (item) {
+                        var option = document.createElement('option');
+                        option.value = item.number;
+                        option.text = item.value;
+                        selectElement.appendChild(option);
+                    });
+                    td.appendChild(selectElement);
+
+                    var buttonElement = document.createElement('button');
+                    buttonElement.id = 'orderChangeButton';
+                    buttonElement.textContent = 'Update';
+                    buttonElement.addEventListener('click', function () {
+                        alert('Button clicked!');
+                    });
+                    td.appendChild(buttonElement);
+
                     tr.appendChild(td);
 
                     document.getElementById("myOrders").appendChild(tr);
