@@ -4,18 +4,30 @@
     <title>Admin Order Updates</title>
     <!-- Include the SignalR library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+
+    <style>
+        .centered {
+            background-color: lightblue;
+            text-align: center;
+        }
+    </style>
+
+
 </head>
 <body>
     <img src="images/pizza_sign.jpg" alt="Conotosa Pizza Sign" width="300" height="200">
     <h1>Pizza Order Admin</h1>
-
+    <!--Receive Live Updates Here-->
     <p>
-        <div id="orderStatus"></div>
+        <div id="orderStatus">Live updates will soon show here</div>
     </p>
 
-    <button type="submit" onclick="fetchPizzaOrders()">Get Orders</button>
+    <h2>Orders</h2>
 
-    <!-- Add a form to submit order updates -->
+    <!--Manually Get All Pizza Orders -->
+    <button type="submit" onclick="fetchPizzaOrders()">Get Orders</button>
+    
+    <!-- The Orders Will Refresh Live -->
     <form id="ordersForm">
         <table id="myOrders" cellpadding="5" border="1" cellspacing="5">
         </table>
@@ -23,6 +35,7 @@
 
     <script>
 
+        // Pizza Order Status Lookup
         var statusLookupTable = [
             { number: 0, value: 'New' },
             { number: 1, value: 'Received' },
@@ -72,7 +85,6 @@
 
         // Function to handle order updates from the server
         connection.on("ReceiveAdminOrderUpdate", function (update) {
-            console.log("Received Order Update");
             const statusDiv = document.getElementById("orderStatus");
             statusDiv.innerHTML = update;
             fetchPizzaOrders();
@@ -88,12 +100,11 @@
         async function fetchPizzaOrders() {
             try {
 
-                // Clear the Orders Table
-                document.getElementById("myOrders").replaceChildren();
-
                 const response = await fetch('https://localhost:7048/api/Order');
                 const data = await response.json();
-                //console.log(data);
+
+                // Clear the Orders Table
+                document.getElementById("myOrders").replaceChildren();
 
                 // Setup the Orders Table Header
                 var thead = document.createElement("thead");
@@ -152,7 +163,15 @@
                     td.appendChild(text);
                     tr.appendChild(td);
 
+                    // Update Order Section
                     var td = document.createElement("td");
+
+                    // Create the div element
+                    var divElement = document.createElement('div');
+
+                    // Set the class for styling
+                    divElement.className = 'centered';
+
                     // Create the select element
                     var selectElement = document.createElement('select');
                     selectElement.id = 'mySelect';
@@ -164,15 +183,26 @@
                         option.text = item.value;
                         selectElement.appendChild(option);
                     });
-                    td.appendChild(selectElement);
+                    selectElement.style.marginRight = '10px';
+                    selectElement.style.marginLeft = '10px';
+                    selectElement.style.marginTop = '10px';
+                    selectElement.style.marginBottom = '10px';
+                    divElement.appendChild(selectElement);
 
                     var buttonElement = document.createElement('button');
                     buttonElement.id = 'orderChangeButton';
                     buttonElement.textContent = 'Update';
+                    buttonElement
                     buttonElement.addEventListener('click', function () {
                         alert('Button clicked!');
                     });
-                    td.appendChild(buttonElement);
+                    buttonElement.style.marginRight = '10px';
+                    buttonElement.style.marginTop = '10px';
+                    buttonElement.style.marginBottom = '10px';
+                    divElement.appendChild(buttonElement);
+
+
+                    td.appendChild(divElement);
 
                     tr.appendChild(td);
 
