@@ -66,6 +66,7 @@ namespace ContosoPizza
                 options.AddPolicy("AllowAll", builder =>
                     builder.AllowAnyMethod()
                            .AllowAnyHeader()
+                           .AllowAnyMethod()
                            .AllowCredentials()
                            .SetIsOriginAllowed(_ => true)); // Allow any origin
             });

@@ -192,9 +192,8 @@
                     var buttonElement = document.createElement('button');
                     buttonElement.id = 'orderChangeButton';
                     buttonElement.textContent = 'Update';
-                    buttonElement
                     buttonElement.addEventListener('click', function () {
-                        alert('Button clicked!');
+                        updateOrderStatus(item.orderId, selectElement.value);
                     });
                     buttonElement.style.marginRight = '10px';
                     buttonElement.style.marginTop = '10px';
@@ -215,35 +214,33 @@
             }
         };
 
+        async function updateOrderStatus(orderId, status) {
+            const url = `https://localhost:7048/api/Order/${orderId}`;
 
-        // Handle the form submission
-        //document.getElementById("ordersForm").addEventListener("submit", function (e) {
-        //    e.preventDefault();
+            const data = { op: "replace", path: "/status", value: "Preparation" };
 
-        //    const customerNameValue = document.getElementById("CustomerName").value;
-        //    const pizzaDetailsValue = document.getElementById("PizzaDetails").value;
+            try {
+                const response = await fetch(url, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
 
-        //    const order = {
-        //        "customerName": customerNameValue,
-        //        "pizza": {
-        //            "pizzaDetails": pizzaDetailsValue
-        //        },
-        //        "connectionId": connectionIdValue
-        //    };
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
 
-        //    // Send the order details to the server
-        //    fetch('https://localhost:7048/api/Order',
-        //        {
-        //            method: 'POST',
-        //            headers: {
-        //                'Content-Type': 'application/json'
-        //            },
-        //            body: JSON.stringify(order)
-        //        })
-        //        .then(response => response.json())
-        //        .then(data => console.log('Order submitted:', data))
-        //        .catch(error => console.error('Error:', error));
-        //});
+                const result = await response.json();
+                console.log('Order updated successfully:', result);
+            }
+            catch (error) {
+                console.error('Error updating order:', error);
+            }
+
+        }
+
 
     </script>
 </body>

@@ -95,6 +95,8 @@ namespace ContosoPizza.Controllers
         [HttpPatch("{id}")]
         public IActionResult Patch(Guid id, JsonPatchDocument<PizzaOrder> pizzaOrderUpdates)
         {
+            Console.WriteLine("Received PATCH order: " + pizzaOrderUpdates);
+
             // Validate the user input
             if (id == default)
             {
