@@ -217,27 +217,24 @@
         async function updateOrderStatus(orderId, status) {
             const url = `https://localhost:7048/api/Order/${orderId}`;
 
-            const data = { op: "replace", path: "/status", value: "Preparation" };
-
-            try {
-                const response = await fetch(url, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+            const data = [
+                {
+                    "value": status,
+                    "path": "/status",
+                    "op": "replace"
                 }
+            ];
 
-                const result = await response.json();
-                console.log('Order updated successfully:', result);
-            }
-            catch (error) {
-                console.error('Error updating order:', error);
-            }
+            fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error:', error));
 
         }
 
