@@ -4,40 +4,35 @@
         <name>ContosoPizza</name>
     </assembly>
     <members>
-        <member name="T:ContosoPizza.Controllers.OrderController">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="F:ContosoPizza.Controllers.OrderController._orderService">
             <summary>
-            
+            Reference to the Order Service
             </summary>
         </member>
         <member name="M:ContosoPizza.Controllers.OrderController.#ctor(ContosoPizza.Services.IOrderService)">
             <summary>
-            
+            Constructor
             </summary>
-            <param name="orderService"></param>
+            <param name="orderService">IOrderService order service reference</param>
         </member>
         <member name="M:ContosoPizza.Controllers.OrderController.GetAll">
             <summary>
-            
+            Get All Pizzas
             </summary>
-            <returns></returns>
+            <returns>List of PizzaOrder objects</returns>
         </member>
         <member name="M:ContosoPizza.Controllers.OrderController.Get(System.Guid)">
             <summary>
-            
+            Get Pizza Order (Single)
             </summary>
-            <param name="id"></param>
-            <returns></returns>
+            <param name="id">Guid of the pizza order</param>
+            <returns>single PizzaOrder</returns>
         </member>
         <member name="M:ContosoPizza.Controllers.OrderController.CreateOrderAsync(ContosoPizza.Models.PizzaOrder)">
             <summary>
-            
+            Create Pizza Order
             </summary>
-            <param name="pizzaOrder"></param>
+            <param name="pizzaOrder">a valid PizzaOrder</param>
             <returns></returns>
         </member>
         <member name="M:ContosoPizza.Controllers.OrderController.Patch(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{ContosoPizza.Models.PizzaOrder})">
@@ -79,7 +74,7 @@
         </member>
         <member name="M:ContosoPizza.Models.Pizza.#ctor">
             <summary>
-            Construtor
+            Constructor
             When a new pizza is created, it is assigned a guid
             </summary>
         </member>

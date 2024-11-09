@@ -48,36 +48,24 @@ namespace ContosoPizza.Services
         {
             // Update the Pizza Order Status
             order.Status = OrderStatus.Preparation;
-
-            // Update the Customer about their pizza order status
-            //await _hub.UpdateClientAboutOrder(order.ConnectionId, "Pizza Order Status Update: " + order.Status);
         }
 
         public void BakePizza(PizzaOrder order)
         {
             // Update the Pizza Order Status
             order.Status = OrderStatus.Baking;
-
-            // Update the Customer about their pizza order status
-            //await _hub.UpdateClientAboutOrder(order.ConnectionId, "Pizza Order Status Update: " + order.Status);
         }
 
         public void DeliverPizza(PizzaOrder order)
         {
             // Update the Pizza Order Status
             order.Status = OrderStatus.OutForDelivery;
-
-            // Update the Customer about their pizza order status
-            //await _hub.UpdateClientAboutOrder(order.ConnectionId, "Pizza Order Status Update: " + order.Status);
         }
 
         public void CompleteOrder(PizzaOrder order)
         {
             // Update the Pizza Order Status
             order.Status = OrderStatus.Complete;
-
-            // Update the Customer about their pizza order status
-            //await _hub.UpdateClientAboutOrder(order.ConnectionId, "Pizza Order Status Update: " + order.Status);
         }
 
         public List<PizzaOrder> GetAllPizzaOrders()
@@ -109,7 +97,7 @@ namespace ContosoPizza.Services
                     if (pizzaOrder == null)
                     {
                         // Order the Pizza
-                        OrderPizzaAsync(order);
+                        await OrderPizzaAsync(order);
                     }
                     break;
                 case OrderStatus.Preparation:

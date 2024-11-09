@@ -5,31 +5,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ContosoPizza.Controllers
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class OrderController :ControllerBase
     {
         /// <summary>
-        /// 
+        /// Reference to the Order Service
         /// </summary>
         private readonly IOrderService _orderService;
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        /// <param name="orderService"></param>
+        /// <param name="orderService">IOrderService order service reference</param>
         public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
         }
 
         /// <summary>
-        /// 
+        /// Get All Pizzas
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List of PizzaOrder objects</returns>
         [HttpGet]       
         public ActionResult<List<PizzaOrder>> GetAll()
         {
@@ -37,10 +34,10 @@ namespace ContosoPizza.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Get Pizza Order (Single)
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Guid of the pizza order</param>
+        /// <returns>single PizzaOrder</returns>
         [HttpGet("{id}")]
         public ActionResult<PizzaOrder> Get(Guid id)
         {
@@ -64,17 +61,18 @@ namespace ContosoPizza.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Create Pizza Order
         /// </summary>
-        /// <param name="pizzaOrder"></param>
+        /// <param name="pizzaOrder">a valid PizzaOrder</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> CreateOrderAsync([FromBody] PizzaOrder pizzaOrder)
+        public async Task<IActionResult> CreateOrderAsync([FromBody] PizzaOrder pizzaOrder)
         {
             // Order the Pizza
             await _orderService.OrderPizzaAsync(pizzaOrder);
 
-            return Ok(pizzaOrder);
+            return CreatedAtAction(nameof(CreateOrderAsync), new {pizzaOrder.OrderId});
+
         }
 
         /// <summary>

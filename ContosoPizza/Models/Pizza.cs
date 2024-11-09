@@ -16,7 +16,7 @@
         public string PizzaDetails { get; set; }
 
         /// <summary>
-        /// Construtor
+        /// Constructor
         /// When a new pizza is created, it is assigned a guid
         /// </summary>
         public Pizza()
