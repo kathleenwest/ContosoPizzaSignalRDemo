@@ -48,7 +48,7 @@ namespace ContosoPizza.Controllers
             }
 
             // Retrieve the pizza
-            PizzaOrder? pizzaOrder = _orderService.Get(id);
+            PizzaOrder? pizzaOrder = _orderService.GetPizzaOrder(id);
 
             // Validate the pizza exists
             if (pizzaOrder == null)
@@ -102,7 +102,7 @@ namespace ContosoPizza.Controllers
             }
 
             // Retrieve the pizza
-            PizzaOrder? existingPizzaOrder = _orderService.Get(id);
+            PizzaOrder? existingPizzaOrder = _orderService.GetPizzaOrder(id);
 
             // Validate the pizza exists
             if (existingPizzaOrder is null)
@@ -114,7 +114,7 @@ namespace ContosoPizza.Controllers
             pizzaOrderUpdates.ApplyTo(existingPizzaOrder);
 
             // Update the pizza
-            _orderService.Update(existingPizzaOrder);
+            _orderService.UpdatePizzaOrder(existingPizzaOrder);
 
             // Return successful update status
             return NoContent();

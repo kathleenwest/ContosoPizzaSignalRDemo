@@ -50,7 +50,7 @@ namespace ContosoPizza.Models
                 if (value != orderStatus)
                 {
                     orderStatus = value;
-                    _orderService.UpdatePizzaOrderAsync(this);
+                    _orderService.SendCustomerOrderStatusUpdateAsync(this);
                 }
             }
         }
