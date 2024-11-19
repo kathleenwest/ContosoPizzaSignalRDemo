@@ -37,6 +37,12 @@
 
     <script>
 
+        // Local Host
+        //const baseUrl = 'https://localhost:7048';
+
+        // Demo Url
+        const baseUrl = 'http://orderpizzademo.runasp.net';
+
         window.onload = function () {
             // Fetch the Pizza Orders
             fetchPizzaOrders();
@@ -68,8 +74,7 @@
         // Get the PizzaOrders
         async function fetchPizzaOrders() {
             try {
-
-                var response = await fetch('https://localhost:7048/api/Order');
+                var response = await fetch(baseUrl + "/api/Order");
 
                 if (response.ok) {
 
@@ -199,7 +204,7 @@
         // Update the Pizza Order Status
         async function updateOrderStatus(orderId, status) {
             try {
-                var url = `https://localhost:7048/api/Order/${orderId}`;
+                var url = baseUrl + `/api/Order/${orderId}`;
 
                 var data = [
                     {
@@ -212,12 +217,11 @@
                 var response = await fetch(url, {
                     method: 'PATCH',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                        'Content-Type': 'application/json-patch+json',
+                        'Accept': '*/*'
                     },
                     body: JSON.stringify(data)
                 });
-
 
                 if (response.ok) {
 
@@ -237,7 +241,7 @@
 
         // Create a new connection to the SignalR hub
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl("https://localhost:7048/ordersHub")
+            .withUrl(baseUrl + "/ordersHub")
             .configureLogging(signalR.LogLevel.Information)
             .build();
 

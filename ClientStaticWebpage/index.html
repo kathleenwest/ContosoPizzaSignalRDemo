@@ -22,9 +22,15 @@
     </p>
     
     <script>
+        // Local Host
+        //const baseUrl = 'https://localhost:7048';
+
+        // Demo Url
+        const baseUrl = 'http://orderpizzademo.runasp.net';
+
         // Create a new connection to the SignalR hub
         const connection = new signalR.HubConnectionBuilder()
-            .withUrl("https://localhost:7048/ordersHub")
+            .withUrl(baseUrl + "/ordersHub")
             .configureLogging(signalR.LogLevel.Information)
             .build();
 
@@ -81,7 +87,7 @@
             document.getElementById("pizzaorderform").disabled = true;
 
             // Send the order details to the server
-            fetch('https://localhost:7048/api/Order',
+            fetch(baseUrl + "/api/Order",
                 {
                     method: 'POST',
                     headers: {
