@@ -1,4 +1,5 @@
-﻿using ContosoPizza.Models;
+﻿using ContosoPizza.Filters;
+using ContosoPizza.Models;
 using ContosoPizza.Services;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,8 @@ namespace ContosoPizza.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class OrderController :ControllerBase
+    [CustomExceptionFilter]
+    public class OrderController : ControllerBase
     {
         /// <summary>
         /// Reference to the Order Service
@@ -26,7 +28,7 @@ namespace ContosoPizza.Controllers
         /// <summary>
         /// Get All Pizzas
         /// </summary>
-        /// <returns>List of PizzaOrder objects</returns>
+        /// <returns>List of (PizzaOrder) objects</returns>
         [HttpGet]       
         public ActionResult<List<PizzaOrder>> GetAll()
         {
@@ -37,7 +39,7 @@ namespace ContosoPizza.Controllers
         /// Get Pizza Order (Single)
         /// </summary>
         /// <param name="id">Guid of the pizza order</param>
-        /// <returns>single PizzaOrder</returns>
+        /// <returns>single (PizzaOrder)</returns>
         [HttpGet("{id}")]
         public ActionResult<PizzaOrder> Get(Guid id)
         {
@@ -63,23 +65,23 @@ namespace ContosoPizza.Controllers
         /// <summary>
         /// Create Pizza Order
         /// </summary>
-        /// <param name="pizzaOrder">a valid PizzaOrder</param>
-        /// <returns></returns>
+        /// <param name="pizzaOrder">a valid (PizzaOrder)</param>
+        /// <returns>Created Pizza Order Guid</returns>
         [HttpPost]
         public async Task<IActionResult> CreateOrderAsync([FromBody] PizzaOrder pizzaOrder)
         {
             // Order the Pizza
             await _orderService.OrderPizzaAsync(pizzaOrder);
 
+            // Return the Created Pizza Order
             return CreatedAtAction(nameof(CreateOrderAsync), new {pizzaOrder.OrderId});
-
         }
 
         /// <summary>
-        /// 
+        /// Patch Update a Pizza Order
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="pizzaOrderUpdates"></param>
+        /// <param name="id">Guid id of the pizza order</param>
+        /// <param name="pizzaOrderUpdates">JsonPatchDocument with Pizza Order updates</param>
         /// 
         /// JSON Example: 
         /// [
@@ -93,8 +95,6 @@ namespace ContosoPizza.Controllers
         [HttpPatch("{id}")]
         public IActionResult Patch(Guid id, JsonPatchDocument<PizzaOrder> pizzaOrderUpdates)
         {
-            Console.WriteLine("Received PATCH order: " + pizzaOrderUpdates);
-
             // Validate the user input
             if (id == default)
             {
@@ -110,15 +110,15 @@ namespace ContosoPizza.Controllers
                 return NotFound();
             }
 
-            // Apply specific updates only to the pizza
+            // Apply specific patch updates only to the existing pizza order
             pizzaOrderUpdates.ApplyTo(existingPizzaOrder);
 
-            // Update the pizza
+            // Update the existing pizza with the patch updates
             _orderService.UpdatePizzaOrder(existingPizzaOrder);
 
             // Return successful update status
             return NoContent();
         }
 
-    }
-}
+    } // end of class
+} // end of namespace
