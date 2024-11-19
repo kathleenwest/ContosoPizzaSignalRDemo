@@ -1,4 +1,4 @@
-using ContosoPizza.Services;
+﻿using ContosoPizza.Services;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
@@ -14,8 +14,6 @@ namespace ContosoPizza
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddSignalR();
-
-            // Add services to the container.
             builder.Services.AddSingleton<IOrderService, OrderService>();
 
             // In order to use JsonPatch, you need to Add NewtonsoftJson support to your controllers here!
@@ -29,8 +27,8 @@ namespace ContosoPizza
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
-                    Title = "Simple Pizza Api", 
-                    Description = "A simple ASP.NET Core Web Api application with CRUD including Patch that allows you to work with pizza data",
+                    Title = "Simple 🍕 Pizza Api", 
+                    Description = "A simple ASP.NET Core Web Api 🍕 application with CRUD including Patch that allows you to work with pizza data",
                     Contact = new OpenApiContact
                     {
                         Name = "Kathleen West",
@@ -109,13 +107,12 @@ namespace ContosoPizza
                 endpoints.MapHub<OrdersHub>("/ordersHub");
             });
 
-            // TODO see if you can remove this
+            // Set instance on order service
             SingletonService.SetInstance(app.Services.GetService<IOrderService>());
            
             // Let's get this party started!
             app.Run();
         }
 
-
-    }
-}
+    } // end of class
+} // end of namespace
