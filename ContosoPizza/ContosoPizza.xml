@@ -123,11 +123,88 @@
             Constructor
             </summary>
         </member>
+        <member name="M:ContosoPizza.Services.IOrderService.OrderPizzaAsync(ContosoPizza.Models.PizzaOrder)">
+            <summary>
+            Order a Pizza
+            </summary>
+            <param name="order">(PizzaOrder) pizza order</param>
+            <returns>a Task without result</returns>
+        </member>
+        <member name="M:ContosoPizza.Services.IOrderService.GetAllPizzaOrders">
+            <summary>
+            Returns all Pizza Orders
+            </summary>
+            <returns>List of (PizzaOrder) objects</returns>
+        </member>
+        <member name="M:ContosoPizza.Services.IOrderService.GetPizzaOrder(System.Guid)">
+            <summary>
+            Get Pizza Order
+            </summary>
+            <param name="id">Guid of the known pizza order</param>
+            <returns>a (PizzaOrder) object (if existing)</returns>
+        </member>
+        <member name="M:ContosoPizza.Services.IOrderService.UpdatePizzaOrder(ContosoPizza.Models.PizzaOrder)">
+            <summary>
+            Updates the Existing Pizza Order
+            </summary>
+            <param name="pizzaOrder">existing (PizzaOrder) order</param>
+        </member>
+        <member name="M:ContosoPizza.Services.IOrderService.SendCustomerOrderStatusUpdateAsync(ContosoPizza.Models.PizzaOrder)">
+            <summary>
+            Send Pizza Order Update to Customer
+            </summary>
+            <param name="order">(PizzaOrder) order</param>
+            <returns>a Task without results</returns>
+        </member>
         <member name="P:ContosoPizza.Services.OrderService.PizzaOrders">
             <summary>
             In-memory static list of PizzaOrders
             (mock of database later)
             </summary>
+        </member>
+        <member name="F:ContosoPizza.Services.OrderService._hubContext">
+            <summary>
+            Reference to the IHubContext (SignalR)
+            </summary>
+        </member>
+        <member name="M:ContosoPizza.Services.OrderService.#ctor(Microsoft.AspNetCore.SignalR.IHubContext{ContosoPizza.Services.OrdersHub})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="hubContext">IHubContext of type OrdersHub</param>
+        </member>
+        <member name="M:ContosoPizza.Services.OrderService.OrderPizzaAsync(ContosoPizza.Models.PizzaOrder)">
+            <summary>
+            Order a Pizza
+            </summary>
+            <param name="order">(PizzaOrder) pizza order</param>
+            <returns>a Task without result</returns>
+        </member>
+        <member name="M:ContosoPizza.Services.OrderService.GetAllPizzaOrders">
+            <summary>
+            Returns all Pizza Orders
+            </summary>
+            <returns>List of (PizzaOrder) objects</returns>
+        </member>
+        <member name="M:ContosoPizza.Services.OrderService.GetPizzaOrder(System.Guid)">
+            <summary>
+            Get Pizza Order
+            </summary>
+            <param name="id">Guid of the known pizza order</param>
+            <returns>a (PizzaOrder) object (if existing)</returns>
+        </member>
+        <member name="M:ContosoPizza.Services.OrderService.UpdatePizzaOrder(ContosoPizza.Models.PizzaOrder)">
+            <summary>
+            Updates the Existing Pizza Order
+            </summary>
+            <param name="pizzaOrder">existing (PizzaOrder) order</param>
+        </member>
+        <member name="M:ContosoPizza.Services.OrderService.SendCustomerOrderStatusUpdateAsync(ContosoPizza.Models.PizzaOrder)">
+            <summary>
+            Send Pizza Order Update to Customer
+            </summary>
+            <param name="order">(PizzaOrder) order</param>
+            <returns>a Task without results</returns>
         </member>
     </members>
 </doc>
