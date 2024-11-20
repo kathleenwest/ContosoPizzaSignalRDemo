@@ -1,0 +1,311 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>🍕 Admin Pizza Order Updates with SignalR</title>
+
+    <!-- Include the SignalR library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+
+    <style>
+        .centered {
+            background-color: lightblue;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="images/pizza_sign.jpg" alt="Conotosa Pizza Sign" width="300" height="200">
+    
+    <h1>🍕 Pizza Order Admin</h1>
+    
+    <!--Receive Live Updates Here-->
+    <p>
+        <div id="orderStatus">Live updates will soon show here</div>
+    </p>
+
+    <h2>Orders</h2>
+
+    <!--Manually Get All Pizza Orders -->
+    <button type="submit" onclick="fetchPizzaOrders()">Get Orders</button>
+    
+    <!-- The Orders Will Refresh Live -->
+    <form id="ordersForm">
+        <table id="myOrders" cellpadding="5" border="1" cellspacing="5">
+        </table>
+    </form>
+
+    <script>
+
+        // Local Host
+        //const baseUrl = 'https://localhost:7048';
+
+        // Demo Url
+        const baseUrl = 'http://orderpizzademo.runasp.net';
+
+        window.onload = function () {
+            // Fetch the Pizza Orders
+            fetchPizzaOrders();
+        };
+
+        // Pizza Order Admin Page Functions
+
+        // Pizza Order Status Lookup
+        var statusLookupTable = [
+            { number: 0, value: 'New' },
+            { number: 1, value: 'Received' },
+            { number: 2, value: 'Preparation' },
+            { number: 3, value: 'Baking' },
+            { number: 4, value: 'Out for Delivery' },
+            { number: 5, value: 'Complete' }
+        ];
+
+        // Function to lookup a value by number
+        function statusLookup(number) {
+
+            var item = statusLookupTable.find(function (element) {
+                return element.number === number;
+            });
+
+            // Return the item value
+            return item ? item.value : 'Not found';
+        }
+
+        // Get the PizzaOrders
+        async function fetchPizzaOrders() {
+            try {
+                var response = await fetch(baseUrl + "/api/Order");
+
+                if (response.ok) {
+
+                    // Obtain the response data
+                    var data = await response.json();
+
+                    // Clear the Orders Table
+                    document.getElementById("myOrders").replaceChildren();
+
+                    // Setup the Orders Table Header
+                    var thead = document.createElement("thead");
+                    var tr = document.createElement("tr");
+
+                    var th = document.createElement("th");
+                    var text = document.createTextNode("Order Id");
+                    th.appendChild(text);
+                    tr.appendChild(th);
+
+                    var th = document.createElement("th");
+                    var text = document.createTextNode("Customer Name");
+                    th.appendChild(text);
+                    tr.appendChild(th);
+
+                    var th = document.createElement("th");
+                    var text = document.createTextNode("Pizza Details");
+                    th.appendChild(text);
+                    tr.appendChild(th);
+
+                    var th = document.createElement("th");
+                    var text = document.createTextNode("Status");
+                    th.appendChild(text);
+                    tr.appendChild(th);
+
+                    var th = document.createElement("th");
+                    var text = document.createTextNode("Update Status");
+                    th.appendChild(text);
+                    tr.appendChild(th);
+
+                    thead.appendChild(tr);
+                    document.getElementById("myOrders").appendChild(thead);
+
+                    // Setup and Add Orders Table Rows
+
+                    // Loop Through the Order Status
+                    data.forEach(function (item) {
+
+                        var tr = document.createElement("tr");
+
+                        var td = document.createElement("td");
+                        var text = document.createTextNode(item.orderId);
+                        td.appendChild(text);
+                        tr.appendChild(td);
+
+                        var td = document.createElement("td");
+                        var text = document.createTextNode(item.customerName);
+                        td.appendChild(text);
+                        tr.appendChild(td);
+
+                        var td = document.createElement("td");
+                        var text = document.createTextNode(item.pizza.pizzaDetails);
+                        td.appendChild(text);
+                        tr.appendChild(td);
+
+                        var td = document.createElement("td");
+                        var text = document.createTextNode(statusLookup(item.status));
+                        td.appendChild(text);
+                        tr.appendChild(td);
+
+                        // Update Order Section
+                        var td = document.createElement("td");
+
+                        // Create the div element
+                        var divElement = document.createElement('div');
+
+                        // Set the class for styling
+                        divElement.className = 'centered';
+
+                        // Create the select element
+                        var selectElement = document.createElement('select');
+                        selectElement.id = 'mySelect';
+
+                        // Populate the select element with options from the lookup table
+                        statusLookupTable.forEach(function (item) {
+                            var option = document.createElement('option');
+                            option.value = item.number;
+                            option.text = item.value;
+                            selectElement.appendChild(option);
+                        });
+
+                        // CSS Styling
+                        selectElement.style.marginRight = '10px';
+                        selectElement.style.marginLeft = '10px';
+                        selectElement.style.marginTop = '10px';
+                        selectElement.style.marginBottom = '10px';
+
+                        divElement.appendChild(selectElement);
+
+                        var buttonElement = document.createElement('button');
+
+                        buttonElement.id = 'orderChangeButton';
+                        buttonElement.textContent = 'Update';
+                        buttonElement.addEventListener('click', function () {
+                            updateOrderStatus(item.orderId, selectElement.value);
+                        });
+                        buttonElement.style.marginRight = '10px';
+                        buttonElement.style.marginTop = '10px';
+                        buttonElement.style.marginBottom = '10px';
+                        divElement.appendChild(buttonElement);
+
+                        td.appendChild(divElement);
+                        tr.appendChild(td);
+
+                        document.getElementById("myOrders").appendChild(tr);
+                    });
+
+                }
+                else {
+                    console.error('Response is invalid status:', response.status);
+                }
+
+            }
+            catch (error) {
+                console.error('Error fetching pizza orders:', error);
+            }
+        };
+
+        async function fetchWithRetry(url, options, retries = 3) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return await response.json();
+                } catch (error) {
+                    if (i === retries - 1) throw error;
+                }
+            }
+        }
+
+        // Update the Pizza Order Status
+        async function updateOrderStatus(orderId, status) {
+            try {
+
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
+
+                var url = baseUrl + `/api/Order/${orderId}`;
+
+                var data = [
+                    {
+                        "value": status,
+                        "path": "/status",
+                        "op": "replace"
+                    }
+                ];
+
+                var response = await fetchWithRetry(url, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json-patch+json',
+                        'Accept': '*/*',
+                        'Connection': 'keep-alive',                        
+                    },
+                    mode: 'cors',
+                    signal: controller.signal,
+                    body: JSON.stringify(data)
+                })
+                    .then(response => {
+                        clearTimeout(timeoutId);
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => console.log('Success:', data))
+                    .catch(error => console.error('Error:', error));
+
+                //if (response.ok) {
+
+                //    console.log(response);
+                //}
+                //else {
+                //    throw new Error(`Update Request failed with status: ${response.status}`);
+                //}
+            }
+            catch (error) {
+
+                console.error('Error updating pizza orders:', error);
+            }
+        };
+
+        // SignalR Implementation
+
+        // Create a new connection to the SignalR hub
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl(baseUrl + "/ordersHub")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        // Function to start the SignalR connection
+        // Start the connection
+        async function start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.log(err);
+                setTimeout(start, 5000);
+            }
+        };
+
+        connection.onclose(async () => {
+            await start();
+        });
+
+        var connectionIdValue;
+
+        // Start the connection and record the connection identifier
+        start().then(() => {
+            connectionIdValue = connection.connectionId;
+        });
+
+        // Function to handle order updates from the server
+        connection.on("ReceiveAdminOrderUpdate", function (update) {
+            console.log("Received Admin Order Update");
+            const statusDiv = document.getElementById("orderStatus");
+            statusDiv.innerHTML = update;
+            fetchPizzaOrders();
+        });
+
+    </script>
+</body>
+</html>
