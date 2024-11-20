@@ -62,7 +62,7 @@ namespace ContosoPizza
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", builder =>
-                    builder.WithOrigins("http://*.katiegirl.net", "https://*.katiegirl.net")
+                    builder.WithOrigins("http://portfolio.katiegirl.net", "https://portfolio.katiegirl.net")
                            .AllowAnyMethod()
                            .AllowAnyHeader()
                            .AllowCredentials());
