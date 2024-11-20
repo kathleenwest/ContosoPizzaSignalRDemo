@@ -201,9 +201,27 @@
             }
         };
 
+        async function fetchWithRetry(url, options, retries = 3) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return await response.json();
+                } catch (error) {
+                    if (i === retries - 1) throw error;
+                }
+            }
+        }
+
         // Update the Pizza Order Status
         async function updateOrderStatus(orderId, status) {
             try {
+
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
+
                 var url = baseUrl + `/api/Order/${orderId}`;
 
                 var data = [
@@ -214,22 +232,34 @@
                     }
                 ];
 
-                var response = await fetch(url, {
+                var response = await fetchWithRetry(url, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json-patch+json',
-                        'Accept': '*/*'
+                        'Accept': '*/*',
+                        'Connection': 'keep-alive',                        
                     },
+                    mode: 'cors',
+                    signal: controller.signal,
                     body: JSON.stringify(data)
-                });
+                })
+                    .then(response => {
+                        clearTimeout(timeoutId);
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => console.log('Success:', data))
+                    .catch(error => console.error('Error:', error));
 
-                if (response.ok) {
+                //if (response.ok) {
 
-                    console.log(response);
-                }
-                else {
-                    throw new Error(`Update Request failed with status: ${response.status}`);
-                }
+                //    console.log(response);
+                //}
+                //else {
+                //    throw new Error(`Update Request failed with status: ${response.status}`);
+                //}
             }
             catch (error) {
 
