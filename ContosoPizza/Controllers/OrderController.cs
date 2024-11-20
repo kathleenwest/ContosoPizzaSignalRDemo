@@ -118,7 +118,7 @@ namespace ContosoPizza.Controllers
             _orderService.UpdatePizzaOrder(existingPizzaOrder);
 
             // Return successful update status
-            return NoContent();
+            return Ok(existingPizzaOrder);
         }
 
     } // end of class
