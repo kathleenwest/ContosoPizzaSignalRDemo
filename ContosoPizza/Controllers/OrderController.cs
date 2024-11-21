@@ -92,7 +92,6 @@ namespace ContosoPizza.Controllers
         ///   }
         /// ] 
         /// <returns></returns>
-        [HttpOptions]
         [HttpPatch("{id}")]
         public IActionResult Patch(Guid id, JsonPatchDocument<PizzaOrder> pizzaOrderUpdates)
         {
