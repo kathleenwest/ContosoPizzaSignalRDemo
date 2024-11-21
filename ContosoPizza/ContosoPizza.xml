@@ -21,7 +21,7 @@
             </summary>
             <returns>List of (PizzaOrder) objects</returns>
         </member>
-        <member name="M:ContosoPizza.Controllers.OrderController.Get(System.Guid)">
+        <member name="M:ContosoPizza.Controllers.OrderController.GetOrderById(System.Guid)">
             <summary>
             Get Pizza Order (Single)
             </summary>

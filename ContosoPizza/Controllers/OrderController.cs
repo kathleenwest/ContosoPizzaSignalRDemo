@@ -40,8 +40,35 @@ namespace ContosoPizza.Controllers
         /// </summary>
         /// <param name="id">Guid of the pizza order</param>
         /// <returns>single (PizzaOrder)</returns>
-        [HttpGet("{id}")]
-        public ActionResult<PizzaOrder> Get(Guid id)
+        //[HttpGet("{id}")]
+        //public ActionResult<PizzaOrder> Get(Guid id)
+        //{
+        //    // Validate user inputs
+        //    if (id == default)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    // Retrieve the pizza
+        //    PizzaOrder? pizzaOrder = _orderService.GetPizzaOrder(id);
+
+        //    // Validate the pizza exists
+        //    if (pizzaOrder == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    // Return the pizza
+        //    return Ok(pizzaOrder);
+        //}
+
+        /// <summary>
+        /// Get Pizza Order (Single)
+        /// </summary>
+        /// <param name="id">Guid of the pizza order</param>
+        /// <returns>single (PizzaOrder)</returns>
+        [HttpGet("{orderId}")]
+        public ActionResult<PizzaOrder> GetOrderById(Guid id)
         {
             // Validate user inputs
             if (id == default)
@@ -68,13 +95,16 @@ namespace ContosoPizza.Controllers
         /// <param name="pizzaOrder">a valid (PizzaOrder)</param>
         /// <returns>Created Pizza Order Guid</returns>
         [HttpPost]
-        public async Task<IActionResult> CreateOrderAsync([FromBody] PizzaOrder pizzaOrder)
+        public async Task<ActionResult<Guid>> CreateOrderAsync([FromBody] PizzaOrder pizzaOrder)
         {
             // Order the Pizza
             await _orderService.OrderPizzaAsync(pizzaOrder);
 
             // Return the Created Pizza Order
-            return CreatedAtAction(nameof(CreateOrderAsync), new {pizzaOrder.OrderId});
+            //return CreatedAtAction(nameof(CreateOrderAsync), new {pizzaOrder.OrderId});
+
+            // Return the Created Pizza Order
+            return CreatedAtAction(nameof(GetOrderById), new { orderId = pizzaOrder.OrderId }, pizzaOrder.OrderId);
         }
 
         /// <summary>

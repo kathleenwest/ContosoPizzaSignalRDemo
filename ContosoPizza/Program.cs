@@ -100,6 +100,8 @@ namespace ContosoPizza
             app.MapControllers();
             app.UseRouting();
             app.UseCors("AllowAll");
+            app.UseDeveloperExceptionPage();
+
 
             //Add the SignalR Endpoint
             app.UseEndpoints(endpoints =>
