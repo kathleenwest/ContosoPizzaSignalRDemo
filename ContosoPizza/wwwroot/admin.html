@@ -201,6 +201,7 @@
             }
         };
 
+        // Fetch a Url with Retry Options
         async function fetchWithRetry(url, options, retries = 3) {
             for (let i = 0; i < retries; i++) {
                 try {
@@ -252,14 +253,6 @@
                     })
                     .then(data => console.log('Success:', data))
                     .catch(error => console.error('Error:', error));
-
-                //if (response.ok) {
-
-                //    console.log(response);
-                //}
-                //else {
-                //    throw new Error(`Update Request failed with status: ${response.status}`);
-                //}
             }
             catch (error) {
 

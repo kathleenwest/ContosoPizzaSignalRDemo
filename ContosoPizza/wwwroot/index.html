@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>🍕 Order Updates with SignalR</title>
+    <title>🍕 Customer Order Updates with SignalR</title>
     <!-- Include the SignalR library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
 </head>
@@ -70,10 +70,6 @@
 
             const customerNameValue = document.getElementById("CustomerName").value;
             const pizzaDetailsValue = document.getElementById("PizzaDetails").value;
-
-            console.log(customerNameValue);
-            console.log(pizzaDetailsValue);
-            console.log(connectionIdValue);
 
             const order = {
                 "customerName": customerNameValue,
