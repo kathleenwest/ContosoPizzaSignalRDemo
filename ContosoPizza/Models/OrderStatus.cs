@@ -5,11 +5,11 @@
     /// </summary>
     public enum OrderStatus
     {
-        New,
-        Received,
-        Preparation,
-        Baking,
-        OutForDelivery,
-        Complete
+        New = 0,
+        Received = 1,
+        Preparation = 2,
+        Baking = 3,
+        OutForDelivery = 4,
+        Complete = 5
     }
 }
