@@ -1,26 +1,34 @@
-﻿using System.Net;
-using System.Web.Http.Filters;
-using ExceptionFilterAttribute = System.Web.Http.Filters.ExceptionFilterAttribute;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 
 namespace ContosoPizza.Filters
 {
     public class CustomExceptionFilter : ExceptionFilterAttribute
     {
-        public override void OnException(HttpActionExecutedContext context)
+
+        public CustomExceptionFilter()
         {
-            // Log the exception (you can use any logging framework here)
-            // For simplicity, we're using Console.WriteLine
-            Console.WriteLine(context.Exception);
 
-            // Create a custom response
-            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+        }
+
+        public override void OnException(ExceptionContext context)
+        {
+            Console.WriteLine($"{context.Exception} 💩 An unexpected error occurred. Please try again later.");
+
+            if (context.Exception is UnauthorizedAccessException)
             {
-                Content = new StringContent("💩 An unexpected error occurred. Please try again later."),
-                ReasonPhrase = "💩"
-            };
+                context.Result = new UnauthorizedResult();
+            }
+            else
+            {
+                context.Result = new ObjectResult("💩 An unexpected error occurred. Please try again later.")
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError
+                };
+            }
 
-            context.Response = response;
+            context.ExceptionHandled = true;
         }
     }
-
 }

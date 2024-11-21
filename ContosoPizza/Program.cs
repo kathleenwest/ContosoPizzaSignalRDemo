@@ -1,4 +1,5 @@
-﻿using ContosoPizza.Services;
+﻿using ContosoPizza.Filters;
+using ContosoPizza.Services;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
@@ -15,6 +16,7 @@ namespace ContosoPizza
             builder.Services.AddRazorPages();
             builder.Services.AddSignalR();
             builder.Services.AddSingleton<IOrderService, OrderService>();
+            builder.Services.AddTransient<CustomExceptionFilter>();
 
             // In order to use JsonPatch, you need to Add NewtonsoftJson support to your controllers here!
             builder.Services.AddControllers().AddNewtonsoftJson();

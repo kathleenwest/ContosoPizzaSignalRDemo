@@ -32,7 +32,7 @@ namespace ContosoPizza.Controllers
         [HttpGet]       
         public ActionResult<List<PizzaOrder>> GetAll()
         {
-            return Ok(_orderService.GetAllPizzaOrders());
+            return Ok(_orderService.GetAllPizzaOrders());                    
         }
 
         /// <summary>
