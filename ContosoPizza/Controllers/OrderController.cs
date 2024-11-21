@@ -93,7 +93,7 @@ namespace ContosoPizza.Controllers
         /// ] 
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public IActionResult Patch(Guid id, JsonPatchDocument<PizzaOrder> pizzaOrderUpdates)
+        public ActionResult<PizzaOrder> Patch(Guid id, JsonPatchDocument<PizzaOrder> pizzaOrderUpdates)
         {
             // Validate the user input
             if (id == default)
