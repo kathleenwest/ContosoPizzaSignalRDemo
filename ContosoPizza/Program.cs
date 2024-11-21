@@ -68,7 +68,6 @@ namespace ContosoPizza
                            .AllowAnyMethod()
                            .AllowAnyHeader()
                            .AllowCredentials());
-                           //.SetIsOriginAllowed(_ => true)); // Allow any origin
             });
 
             // Create the web application
@@ -81,6 +80,7 @@ namespace ContosoPizza
             // Add ASPNETCORE_ENVIRONMENT = "Development"
             if (app.Environment.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
@@ -102,9 +102,7 @@ namespace ContosoPizza
             app.MapControllers();
             app.UseRouting();
             app.UseCors("AllowAll");
-            app.UseDeveloperExceptionPage();
-
-
+            
             //Add the SignalR Endpoint
             app.UseEndpoints(endpoints =>
             {
