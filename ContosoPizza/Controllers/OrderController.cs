@@ -74,9 +74,6 @@ namespace ContosoPizza.Controllers
             await _orderService.OrderPizzaAsync(pizzaOrder);
 
             // Return the Created Pizza Order
-            //return CreatedAtAction(nameof(CreateOrderAsync), new {pizzaOrder.OrderId});
-
-            // Return the Created Pizza Order
             return CreatedAtAction(nameof(GetOrderById), new { orderId = pizzaOrder.OrderId }, pizzaOrder.OrderId);
         }
 
