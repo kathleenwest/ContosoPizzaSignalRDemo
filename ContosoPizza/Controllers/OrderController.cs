@@ -38,19 +38,19 @@ namespace ContosoPizza.Controllers
         /// <summary>
         /// Get Pizza Order (Single)
         /// </summary>
-        /// <param name="id">Guid of the pizza order</param>
+        /// <param name="orderId">Guid of the pizza order</param>
         /// <returns>single (PizzaOrder)</returns>
         [HttpGet("{orderId}")]
-        public ActionResult<PizzaOrder> GetOrderById(Guid id)
+        public ActionResult<PizzaOrder> GetPizzaOrderById(Guid orderId)
         {
             // Validate user inputs
-            if (id == default)
+            if (orderId == default)
             {
                 return BadRequest();
             }
 
             // Retrieve the pizza
-            PizzaOrder? pizzaOrder = _orderService.GetPizzaOrder(id);
+            PizzaOrder? pizzaOrder = _orderService.GetPizzaOrder(orderId);
 
             // Validate the pizza exists
             if (pizzaOrder == null)
@@ -74,7 +74,7 @@ namespace ContosoPizza.Controllers
             await _orderService.OrderPizzaAsync(pizzaOrder);
 
             // Return the Created Pizza Order
-            return CreatedAtAction(nameof(GetOrderById), new { orderId = pizzaOrder.OrderId }, pizzaOrder.OrderId);
+            return CreatedAtAction(nameof(GetPizzaOrderById), new { orderId = pizzaOrder.OrderId }, pizzaOrder.OrderId);
         }
 
         /// <summary>

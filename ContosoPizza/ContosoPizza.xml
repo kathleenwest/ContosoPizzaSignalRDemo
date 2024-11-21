@@ -25,7 +25,7 @@
             <summary>
             Get Pizza Order (Single)
             </summary>
-            <param name="id">Guid of the pizza order</param>
+            <param name="orderId">Guid of the pizza order</param>
             <returns>single (PizzaOrder)</returns>
         </member>
         <member name="M:ContosoPizza.Controllers.OrderController.CreateOrderAsync(ContosoPizza.Models.PizzaOrder)">
