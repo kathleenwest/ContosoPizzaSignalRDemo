@@ -40,33 +40,6 @@ namespace ContosoPizza.Controllers
         /// </summary>
         /// <param name="id">Guid of the pizza order</param>
         /// <returns>single (PizzaOrder)</returns>
-        //[HttpGet("{id}")]
-        //public ActionResult<PizzaOrder> Get(Guid id)
-        //{
-        //    // Validate user inputs
-        //    if (id == default)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    // Retrieve the pizza
-        //    PizzaOrder? pizzaOrder = _orderService.GetPizzaOrder(id);
-
-        //    // Validate the pizza exists
-        //    if (pizzaOrder == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    // Return the pizza
-        //    return Ok(pizzaOrder);
-        //}
-
-        /// <summary>
-        /// Get Pizza Order (Single)
-        /// </summary>
-        /// <param name="id">Guid of the pizza order</param>
-        /// <returns>single (PizzaOrder)</returns>
         [HttpGet("{orderId}")]
         public ActionResult<PizzaOrder> GetOrderById(Guid id)
         {
