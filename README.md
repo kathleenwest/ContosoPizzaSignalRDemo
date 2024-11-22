@@ -4,11 +4,11 @@ Table of Contents
 
 ##  1. <a name='ProjectOverview'></a>Project Overview
 
-A simple 🍕 pizza ordering web application (including web api) a with SignalR updates to the customer and admin pizza shop. A demo video is available that shows the project working and with discussion of technical implementation.
+A simple 🍕 pizza ordering web application (including web api) with SignalR updates to the customer and admin pizza shop. A demo video is available that shows the project working and with discussion of technical implementation.
 - Customers can order pizza and receive real-time updates on their order with SignalR.
 - Pizza shop owners can receive real-time orders from customers and make order status updates that are delivered as real-time updates to their customers with SignalR.
 
-##	2. <a name='DemoLinks'></a>Demo Links and Images
+##	2. <a name='DemoLinks'></a>Demo Links
 Depending on the availability of the free hosting service, these links may be unavailable, but let's stay positive 😁
 
 [🧍 Customer Pizza Order Page](http://orderpizzademo.runasp.net/)
