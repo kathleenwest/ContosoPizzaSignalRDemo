@@ -30,12 +30,12 @@ The visual studio solution is an asp.net web api with controllers, models, and s
 
 ![Visual Studio Solution Architecture](images/architecture.jpg)
 
-##  4. <a name='WebApiCRUD'></a>Web Api CRUD
-This is a simple web api that follows the standard CRUD (create, read, update, and delete) pattern. Demo images of the api operations are shown below by category.
-
+##  4. <a name='SwaggerDocumentation'></a>Swagger Documentation
+Swagger documentation for the web api is available:
 
 [Swagger Documentation](http://orderpizzademo.runasp.net/swagger/v1/swagger.json)
-[Demo Swagger Link](http://orderpizzademo.runasp.net/swagger/index.html)
 
+##  5. <a name='YouTubeVideo'></a>Demo and Tutorial YouTube Video
+TBA
 
 
