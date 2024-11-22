@@ -17,6 +17,8 @@ Depending on the availability of the free hosting service, these links may be un
 
 [👩‍🍳 Pizza Shop Admin Page](http://orderpizzademo.runasp.net/admin.html)
 
+![Pizza Shop Admin Page](images/adminpage.jpg)
+
 [🌐 Demo Swagger Link](http://orderpizzademo.runasp.net/swagger/index.html)
 
 ##  3. <a name='Architecture'></a>Architecture
