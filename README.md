@@ -21,7 +21,8 @@ Depending on the availability of the free hosting service, these links may be un
 
 [🌐 Demo Swagger Link](http://orderpizzademo.runasp.net/swagger/index.html)
 
-![Demo Swagger Link](images/swaggerpicture.jpg)
+![Demo Swagger Page](images/swaggerpicture.jpg)
+
 
 ##  3. <a name='Architecture'></a>Architecture
 The visual studio solution is an asp.net web api with controllers, models, and services. There is one singleton service for the Orders management. Setup for SignalR is included with the OrdersHub and callback registrations. There are also static web pages for both the customer and admin pizza ordering interface to the web api and real-time updates connectivity using SignalR.
