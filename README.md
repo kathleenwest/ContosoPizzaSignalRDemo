@@ -26,6 +26,29 @@ Depending on the availability of the free hosting service, these links may be un
 
 
 ##  3. <a name='Architecture'></a>Architecture
+An overview of the project is shown in the architecture diagram below:
+
+![Project Architecture](images/architecturediagram.jpg)
+
+There are three main components:
+
+- ASP.Net Web Api with SignalR Implementation
+	- Get All Pizzas
+	- Get Pizza by Order Id
+	- Create Pizza Order
+	- Update (PATCH) Pizza Order
+	- Order Service
+	- OrderHub (SignalR)
+- Customer HTML Page with SignalR Connectivity
+	- Connect to SignalR
+	- POST new Pizza Order
+	- Receive Order Update (SignalR)
+- Pizza Shop Admin HTML Page with SignalR Connectivity
+	- Connect to SignalR
+	- Get All Pizza Orders
+	- Update (PATCH) Pizza Order
+	- Receive Admin Order Update
+
 The visual studio solution is an asp.net web api with controllers, models, and services. There is one singleton service for the Orders management. Setup for SignalR is included with the OrdersHub and callback registrations. There are also static web pages for both the customer and admin pizza ordering interface to the web api and real-time updates connectivity using SignalR.
 
 ![Visual Studio Solution Architecture](images/architecture.jpg)
