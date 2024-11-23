@@ -47,7 +47,7 @@ There are three main components:
 	- Connect to SignalR
 	- Get All Pizza Orders
 	- Update (PATCH) Pizza Order
-	- Receive Admin Order Update
+	- Receive Admin Order Update (SignalR)
 
 The visual studio solution is an asp.net web api with controllers, models, and services. There is one singleton service for the Orders management. Setup for SignalR is included with the OrdersHub and callback registrations. There are also static web pages for both the customer and admin pizza ordering interface to the web api and real-time updates connectivity using SignalR.
 
