@@ -3,6 +3,7 @@
 Table of Contents
 <!-- vscode-markdown-toc -->
  * [Project Overview](#ProjectOverview)
+ * [Demo Links](#DemoLinks)
  * [Architecture](#Architecture)
  * [Swagger Documentation](#SwaggerDocumentation)
  * [Demo and Tutorial Video](#DemoandTutorialVideo)
@@ -36,7 +37,7 @@ Depending on the availability of the free hosting service, these links may be un
 ![Demo Swagger Page](images/swaggerpicture.jpg)
 
 
-##  2. <a name='Architecture'></a>Architecture
+##  3. <a name='Architecture'></a>Architecture
 An overview of the project is shown in the architecture diagram below:
 
 ![Project Architecture](images/architecturediagram.jpg)
@@ -64,12 +65,12 @@ The visual studio solution is an asp.net web api with controllers, models, and s
 
 ![Visual Studio Solution Architecture](images/architecture.jpg)
 
-##  3. <a name='SwaggerDocumentation'></a>Swagger Documentation
+##  4. <a name='SwaggerDocumentation'></a>Swagger Documentation
 Swagger documentation for the web api is available:
 
 [Swagger Documentation](http://orderpizzademo.runasp.net/swagger/v1/swagger.json)
 
-##  4. <a name='DemoandTutorialVideo'></a>Demo and Tutorial Video
+##  5. <a name='DemoandTutorialVideo'></a>Demo and Tutorial Video
 
 [![Watch the tutorial and demo video](images/Title.jpg)](https://www.youtube.com/watch?v=UqkiPBk9D8I "Contoso 🍕 Pizza Ordering - ASP.Net Web Api and Web Application with SignalR - Demo and Tutorial")
 
