@@ -60,6 +60,6 @@ Swagger documentation for the web api is available:
 
 ##  5. <a name='YouTubeVideo'></a>Demo and Tutorial YouTube Video
 
-[![Watch the tutorial and demo video](/images/Title.jpg)](https://www.youtube.com/watch?v=UqkiPBk9D8I "Contoso 🍕 Pizza Ordering - ASP.Net Web Api and Web Application with SignalR - Demo and Tutorial")
+[![Watch the tutorial and demo video](images/Title.jpg)](https://www.youtube.com/watch?v=UqkiPBk9D8I "Contoso 🍕 Pizza Ordering - ASP.Net Web Api and Web Application with SignalR - Demo and Tutorial")
 
 
